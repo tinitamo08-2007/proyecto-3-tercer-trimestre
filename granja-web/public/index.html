@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Granja · Sistema de Gestión</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!--  NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-soil sticky-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="/">
+        <i class="bi bi-tree-fill me-2 text-success-light"></i>
+        <span class="ff-lora fw-bold fs-5">Granja <span class="text-wheat">· Gestión</span></span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Menú">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div class="navbar-nav gap-2">
+          <button class="btn btn-nav active" onclick="navigate('inicio')">Inicio</button>
+          <button class="btn btn-nav"        onclick="navigate('informacion')">Información</button>
+          <button class="btn btn-nav"        onclick="navigate('consultas')">Consultas</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!--  CONTENEDOR PRINCIPAL  -->
+  <div class="container">
+
+    <!-- HERO -->
+    <div id="hero-block" class="hero">
+      <div class="row">
+        <div class="col-12 col-md-8">
+          <h1 class="hero-titulo">Rebelión<br><em>en la Granja</em></h1>
+          <p class="hero-subtitulo">Sistema de gestión ganadera: animales, empleados y actividades</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESTADÍSTICAS -->
+    <div class="row g-3 mt-4 mb-5">
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <i class="bi bi-egg-fried stat-icon"></i>
+          <span class="stat-num" id="stat-animales">—</span>
+          <span class="stat-label">Animales</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <i class="bi bi-heart-pulse stat-icon"></i>
+          <span class="stat-num" id="stat-sanos">—</span>
+          <span class="stat-label">Sanos</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <i class="bi bi-people-fill stat-icon"></i>
+          <span class="stat-num" id="stat-empleados">—</span>
+          <span class="stat-label">Empleados</span>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <i class="bi bi-calendar-check stat-icon"></i>
+          <span class="stat-num" id="stat-actividades">—</span>
+          <span class="stat-label">Actividades</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN INICIO -->
+    <section class="seccion active" id="sec-inicio">
+      <h2 class="seccion-titulo">Panel Principal</h2>
+      <p class="seccion-subtitulo mb-4">Bienvenido al sistema de gestión de la granja.</p>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="info-card">
+            <i class="bi bi-cow info-card-icon"></i>
+            <h3>Gestión de Animales</h3>
+            <p>Registra y consulta animales por especie, raza, estado de salud y ubicación.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="info-card">
+            <i class="bi bi-person-badge info-card-icon"></i>
+            <h3>Gestión de Empleados</h3>
+            <p>Administra el personal de la granja: veterinarios, peones y encargados.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="info-card">
+            <i class="bi bi-sunrise info-card-icon"></i>
+            <h3>Actividades Rurales</h3>
+            <p>Registro diario de tareas: ordeño, alimentación, vacunación y limpieza.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN INFORMACIÓN -->
+    <section class="seccion" id="sec-informacion">
+      <h2 class="seccion-titulo">Mostrar Información</h2>
+      <p class="seccion-subtitulo">Consulta los datos almacenados en la base de datos.</p>
+
+      <!-- Pestañas -->
+      <ul class="nav nav-pills my-3" id="infoTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="btn-tab active" onclick="loadTab('animales')">Animales</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="btn-tab" onclick="loadTab('empleados')">Empleados</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="btn-tab" onclick="loadTab('actividades')">Actividades</button>
+        </li>
+      </ul>
+
+      <!-- Tabla dinámica -->
+      <div id="table-container" class="mt-3">
+        <div class="loader">
+          <div class="spinner-border text-success mb-3" role="status"></div>
+          <p>Cargando datos...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN CONSULTAS -->
+    <section class="seccion" id="sec-consultas">
+      <h2 class="seccion-titulo">Realizar Consultas</h2>
+      <p class="seccion-subtitulo">Filtra y busca información específica de la base de datos.</p>
+
+      <div class="card shadow-sm mt-3">
+        <div class="card-header bg-soil text-white">
+          <h5 class="mb-0"><i class="bi bi-search me-2"></i>Formulario de Consulta</h5>
+        </div>
+        <div class="card-body">
+          <div class="row g-3 align-items-end">
+            <div class="col-md-5">
+              <label for="q-tipo" class="form-label fw-semibold">Tipo de Consulta *</label>
+              <select id="q-tipo" class="form-select" onchange="updateFiltroPlaceholder()">
+                <option value="">— Selecciona una consulta —</option>
+                <option value="animales_especie">Animales por especie</option>
+                <option value="empleados_rol">Empleados por rol</option>
+                <option value="actividades_fecha">Actividades por fecha</option>
+                <option value="animales_salud">Animales por estado de salud</option>
+              </select>
+              <div class="invalid-feedback" id="err-tipo">Selecciona un tipo de consulta.</div>
+            </div>
+            <div class="col-md-5">
+              <label for="q-filtro" class="form-label fw-semibold">Filtro (opcional)</label>
+              <input type="text" id="q-filtro" class="form-control" placeholder="Ej: Bovino, Veterinario..." maxlength="80" />
+              <div class="invalid-feedback" id="err-filtro">El filtro no puede tener caracteres especiales.</div>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-pasture w-100" onclick="ejecutarConsulta()" id="btn-consultar">
+                <i class="bi bi-search me-1"></i> Buscar
+              </button>
+            </div>
+          </div>
+          <!-- Resultados -->
+          <div class="mt-4" id="query-results" style="display:none;">
+            <div id="query-results-inner"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Archivo JS principal -->
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,314 @@
+/* VARIABLES DE COLOR */
+:root {
+  --soil:       #3c2415;    /* marrón muy oscuro */
+  --bark:       #5a3a2b;    /* marrón medio */
+  --wheat:      #e8c87a;    /* trigo */
+  --pasture:    #478c5c;    /* verde pradera */
+  --pasture-light: #6cb07c;
+  --cream:      #faf7f0;    /* fondo claro */
+  --fog:        #e7e1d3;
+  --clay:       #7a5240;
+  --white:      #ffffff;
+  --shadow:     0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* ESTILOS GLOBALES */
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--cream);
+  color: var(--soil);
+}
+
+/* Fuente serif para títulos */
+.ff-lora { font-family: 'Lora', serif; }
+
+/* Colores de utilidad */
+.text-soil    { color: var(--soil) !important; }
+.text-bark    { color: var(--bark) !important; }
+.text-wheat   { color: var(--wheat) !important; }
+.text-pasture { color: var(--pasture) !important; }
+.text-clay    { color: var(--clay) !important; }
+
+.bg-soil      { background-color: var(--soil) !important; }
+.bg-pasture   { background-color: var(--pasture) !important; }
+
+.text-success-light { color: var(--pasture-light) !important; }
+
+/* ── NAVBAR ─────────────────────────────────────────────── */
+.navbar-brand span {
+  letter-spacing: 0.5px;
+}
+
+.btn-nav {
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.8);
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  transition: all 0.2s;
+  font-family: 'Nunito', sans-serif;
+}
+
+.btn-nav:hover {
+  background: rgba(255,255,255,0.1);
+  color: var(--wheat);
+}
+
+.btn-nav.active {
+  background: var(--pasture);
+  color: white;
+}
+
+/*  HERO  */
+.hero {
+  background: linear-gradient(135deg, #2d4a22, #4a6b3a); /* gradiente que recuerda un campo */
+  border-radius: 1rem;
+  padding: 4rem 2rem;
+  margin-top: 2rem;
+  color: white;
+}
+
+.hero-titulo {
+  font-family: 'Lora', serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+
+.hero-titulo em {
+  color: var(--wheat);
+  font-style: italic;
+}
+
+.hero-subtitulo {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  max-width: 500px;
+}
+
+/*  TARJETAS DE ESTADÍSTICAS  */
+.stat-card {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  transition: transform 0.2s;
+  height: 100%;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  color: var(--pasture);
+  margin-bottom: 0.5rem;
+}
+
+.stat-num {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--bark);
+  display: block;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--clay);
+  font-weight: 700;
+}
+
+.demo-badge {
+  display: inline-block;
+  background: #c0582a;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.6rem;
+  border-radius: 20px;
+  margin-left: 0.4rem;
+  vertical-align: middle;
+}
+
+/*  SECCIONES  */
+.seccion {
+  display: none;
+}
+
+.seccion.active {
+  display: block;
+}
+
+.seccion-titulo {
+  font-family: 'Lora', serif;
+  font-size: 1.8rem;
+  color: var(--bark);
+  margin-bottom: 0.2rem;
+}
+
+.seccion-subtitulo {
+  color: var(--clay);
+  font-size: 1rem;
+}
+
+/*  TARJETAS DE INICIO  */
+.info-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 2rem 1.5rem;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--pasture);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-align: center;
+  height: 100%;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+/* Colores para las tarjetas */
+.col-md-4:nth-child(2) .info-card { border-top-color: var(--wheat); }
+.col-md-4:nth-child(3) .info-card { border-top-color: #c0582a; }
+
+.info-card-icon {
+  font-size: 2.5rem;
+  color: var(--pasture);
+  margin-bottom: 1rem;
+}
+
+.info-card h3 {
+  font-family: 'Lora', serif;
+  font-size: 1.2rem;
+  color: var(--bark);
+  margin-bottom: 0.5rem;
+}
+
+.info-card p {
+  font-size: 0.95rem;
+  color: var(--clay);
+}
+
+/*  PESTAÑAS  */
+.btn-tab {
+  background: transparent;
+  border: 2px solid var(--fog);
+  color: var(--clay);
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 30px;
+  padding: 0.5rem 1.5rem;
+  transition: all 0.2s;
+  font-family: 'Nunito', sans-serif;
+  margin-right: 0.5rem;
+}
+
+.btn-tab:hover {
+  border-color: var(--pasture);
+  color: var(--pasture);
+}
+
+.btn-tab.active {
+  background: var(--pasture);
+  border-color: var(--pasture);
+  color: white;
+}
+
+/*  TABLA  */
+.table-wrap {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.table thead th {
+  background: var(--soil);
+  color: white;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: none;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/*  BADGES DE SALUD  */
+.badge-salud {
+  display: inline-block;
+  padding: 0.25rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.badge-salud.verde  { background: #d1f0db; color: #1e6b3a; }
+.badge-salud.ambar  { background: #fde8c3; color: #8a5c00; }
+.badge-salud.rojo   { background: #fdd9d0; color: #8a2400; }
+
+/*  BOTÓN PRINCIPAL  */
+.btn-pasture {
+  background: var(--pasture);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 700;
+  transition: all 0.2s;
+  font-family: 'Nunito', sans-serif;
+}
+
+.btn-pasture:hover {
+  background: var(--bark);
+  color: white;
+}
+
+.btn-pasture:disabled {
+  background: var(--fog);
+  color: var(--clay);
+  cursor: not-allowed;
+}
+
+/*  LOADER Y MENSAJES  */
+.loader {
+  text-align: center;
+  padding: 3rem;
+  color: var(--clay);
+  font-style: italic;
+}
+
+/*  RESULTADOS  */
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.results-titulo {
+  font-family: 'Lora', serif;
+  font-size: 1.05rem;
+  color: var(--bark);
+}
+
+.results-count {
+  font-size: 0.85rem;
+  color: var(--clay);
+  background: var(--fog);
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+}
