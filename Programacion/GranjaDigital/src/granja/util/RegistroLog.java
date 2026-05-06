@@ -1,4 +1,4 @@
-package granja.utilidades;
+package granja.util;
 
 import java.io.FileWriter;
 import java.io.IOException;

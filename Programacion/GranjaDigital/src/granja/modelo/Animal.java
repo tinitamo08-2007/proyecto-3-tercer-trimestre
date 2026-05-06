@@ -6,29 +6,14 @@ package granja.modelo;
  */
 public class Animal {
 
-    // Identificador interno del animal (lo usaremos como "id" numérico).
-    private int id;
-
-    // Especie del animal (vaca, oveja, cerdo, etc.).
-    private String especie;
-
-    // Raza de la especie (Holstein, Merina, etc.).
-    private String raza;
-
-    // Fecha de nacimiento en formato texto (ej: "2020-05-01").
-    private String fechaNacimiento;
-
-    // Identificador único físico (ej: arete, chip).
-    private String identificador;
-
-    // Estado de salud (ej: "buena", "grave", "crítica").
-    private String estadoSalud;
-
-    // Ubicación actual (corral 1, potrero norte, etc.).
-    private String ubicacion;
-
-    // Estado general dentro de la granja (ACTIVO, VENDIDO, etc.).
-    private EstadoAnimal estado = EstadoAnimal.ACTIVO;
+    private int id;                                     // Identificador interno del animal (lo usaremos como "id" numérico).
+    private String especie;                             // Especie del animal (vaca, oveja, cerdo, etc.).
+    private String raza;                                // Raza de la especie (Holstein, Merina, etc.).
+    private String fechaNacimiento;                     // Fecha de nacimiento en formato texto (ej: "2020-05-01").
+    private String identificador;                       // Identificador único físico (ej: arete, chip).
+    private String estadoSalud;                         // Estado de salud (ej: "buena", "grave", "crítica").
+    private String ubicacion;                           // Ubicación actual (corral 1, potrero norte, etc.).
+    private EstadoAnimal estado = EstadoAnimal.ACTIVO;  // Estado general dentro de la granja (ACTIVO, VENDIDO, etc.).
 
     // ==== Getters y setters ====
 

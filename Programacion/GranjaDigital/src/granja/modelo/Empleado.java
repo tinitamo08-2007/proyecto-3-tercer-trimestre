@@ -5,11 +5,11 @@ package granja.modelo;
  */
 public class Empleado {
 
-    private int id;                 // ID interno (número)
-    private String nombre;          // Nombre completo
-    private String rol;             // Rol en la granja (veterinario, peón, encargado...)
-    private String telefono;        // Teléfono de contacto
-    private String fechaContratacion; // Fecha de contratación
+    private int id;                     // ID interno (número)
+    private String nombre;              // Nombre completo
+    private String rol;                 // Rol en la granja (veterinario, peón, encargado...)
+    private String telefono;            // Teléfono de contacto
+    private String fechaContratacion;   // Fecha de contratación
 
     // ==== Getters y setters ====
 

@@ -1,4 +1,4 @@
-package granja.utilidades;
+package granja.util;
 
 import granja.modelo.Animal;
 import granja.modelo.Actividad;
