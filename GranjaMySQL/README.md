@@ -24,9 +24,14 @@ Base de datos local en MySQL para el sistema **Granja Digital**. Es una parte pi
 
 ---
 
-## Estructura(voy a hacerlo luego el sábado)
+## Estructura
 
-Cuatro tablas y una vista. Diagrama resumido:
+Cuatro tablas y una vista.
+
+La vista vista_actividades (no aparece como entidad porque no es tabla): hace LEFT JOIN entre actividades, empleados y actividad_animal + animales para que granja-web pueda mostrar las columnas empleado y animales con un único SELECT *. 
+
+Diagrama resumido:
+![alt text](GranjaMySQL_diagrama.jpeg)
 
 ```
 empleados ──< actividades >── actividad_animal ──< animales
