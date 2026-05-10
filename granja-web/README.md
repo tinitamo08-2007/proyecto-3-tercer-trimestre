@@ -109,7 +109,7 @@ Formulario con validaciones para filtrar datos de MySQL:
 
 ---
 
-## 🔌 API REST — Endpoints
+##  API REST — Endpoints
 
 | Método | Ruta | Descripción |
 |--------|------|-------------|
