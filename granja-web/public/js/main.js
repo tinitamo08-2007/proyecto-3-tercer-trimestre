@@ -25,15 +25,15 @@ function navigate(seccion) {
     boton.classList.toggle('active', secciones[indice] === seccion);
   });
 
-  //  El bloque hero  solo se muestra en "Inicio"
+  //  El bloque hero  solo se muestra en la vista "Inicio"
   const hero = document.getElementById('hero-block');
   if (seccion === 'inicio') {
-    hero.style.display = '';         // se muestra (valor por defecto)
+    hero.style.display = '';         // se muestra 
   } else {
     hero.style.display = 'none';    // se oculta
   }
 
-  // 5. Si vamos a "Información", reseteamos la pestaña para forzar recarga
+  //  Si vamos a "Información", reseteamos la pestaña para recargargarla
   if (seccion === 'informacion') {
     pestañaActual = '';   // fuerza recarga aunque ya estuviera activa
     cargarPestaña('animales');
