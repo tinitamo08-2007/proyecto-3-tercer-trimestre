@@ -33,8 +33,9 @@ function navigate(seccion) {
     hero.style.display = 'none';    // se oculta
   }
 
-  // 5. Si vamos a "Información", cargamos por defecto la pestaña de Animales
+  // 5. Si vamos a "Información", reseteamos la pestaña para forzar recarga
   if (seccion === 'informacion') {
+    pestañaActual = '';   // fuerza recarga aunque ya estuviera activa
     cargarPestaña('animales');
   }
 }
@@ -298,4 +299,4 @@ async function ejecutarConsulta() {
   }
 }
 
-cargarEstadisticas();   
+cargarEstadisticas();

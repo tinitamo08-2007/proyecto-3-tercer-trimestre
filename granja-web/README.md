@@ -14,7 +14,14 @@ granja-web/
 ├── package.json       ← Dependencias npm
 ├── README.md          ← Esta documentación
 └── public/
+    ├── css/
+    |   └── style.css
+    ├── css/
+    |   └── main.js
+    |
     └── index.html     ← Frontend (HTML + CSS + JS)
+    └── 404.html     
+
 ```
 
 ---
@@ -162,8 +169,6 @@ Formulario con validaciones para filtrar datos de MySQL:
 ---
 
 ##  Capturas de Pantalla
-
-
 
 ---
 

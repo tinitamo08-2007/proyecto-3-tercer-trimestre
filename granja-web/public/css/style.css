@@ -95,12 +95,14 @@ body {
   box-shadow: var(--shadow);
   padding: 1.5rem 1rem;
   text-align: center;
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
   height: 100%;
+  cursor: pointer;
 }
 
 .stat-card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
 
 .stat-icon {
@@ -311,4 +313,38 @@ body {
   background: var(--fog);
   padding: 0.2rem 0.7rem;
   border-radius: 20px;
+}
+/* FOOTER */
+.site-footer {
+  background: var(--soil);
+  color: var(--wheat);
+  padding: 1rem 0;
+  margin-top: 3rem;
+  font-size: 0.85rem;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  font-family: 'Lora', serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.footer-brand i {
+  color: var(--pasture-light);
+}
+
+.footer-sep {
+  opacity: 0.4;
+}
+
+.footer-copy {
+  opacity: 0.75;
 }
