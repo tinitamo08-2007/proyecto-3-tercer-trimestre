@@ -1,5 +1,5 @@
 -- GranjaMySQL · esquema de la base de datos "granja".
--- Conexión local: localhost:3306, user=root, password=proyecto-3-tercer-trimestre.
+-- Conexión default: granja-mysql-granjamysql.j.aivencloud.com:18071, user=avnadmin.
 
 DROP DATABASE IF EXISTS granja;
 

@@ -13,10 +13,11 @@ app.use(express.static('public'));
 
 // CONEXIÓN A MYSQL
 const conexion = mysql.createConnection({
-    host:     'localhost',
-    user:     'root',
-    password: 'proyecto-3-tercer-trimestre',
-    database: 'GranjaMySQL',
+    host:     'granja-mysql-granjamysql.j.aivencloud.com',
+    user:     'avnadmin',
+    port:     '18071',
+    password: '(Mete aquí la contraseña)',
+    database: 'granja',
 });
 
 conexion.connect((err) => {

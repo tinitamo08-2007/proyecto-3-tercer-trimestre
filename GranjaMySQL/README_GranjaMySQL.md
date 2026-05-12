@@ -1,26 +1,25 @@
 # GranjaMySQL
 
-Base de datos local en MySQL para el sistema **Granja Digital**. Es una parte pilar del proyecto, junto al programa Java [`Programacion/GranjaDigital`](../Programacion/GranjaDigital) y la aplicación web [`granja-web`](../granja-web).
+Base de datos en nube de MySQL mediante [`Aiven`](https://aiven.io/) para el 3º proyecto DAM integrado: **Digitalización de la Granja - sistema de administración**. Es una parte pilar del proyecto, junto al programa Java [`Programacion/GranjaDigital`](../Programacion/GranjaDigital) y la aplicación web [`granja-web`](../granja-web).
 
 ---
 
 ## Conexión
 
-| Campo            | Valor                              |
-|------------------|------------------------------------|
-| Connection name  | `GranjaMySQL`                      |
-| Hostname         | `localhost`                        |
-| Port             | `3306`                             |
-| Username         | `root`                             |
-| Password         | `proyecto-3-tercer-trimestre`      |
-| Default schema   | `granja`                           |
+| Campo            | Valor                                         |
+|------------------|-----------------------------------------------|
+| Connection name  | `GranjaMySQL`                                 |
+| Hostname         | `granja-mysql-granjamysql.j.aivencloud.com`   |
+| Port             | `18071`                                       |
+| Username         | `avnadmin`                                    |
+| Password         | `████████████████████████████████████`        |
+| Default schema   | `granja`                                      |
 
-> Si todavía no has fijado la contraseña de root, puedes hacerlo desde un cliente MySQL ya autenticado:
+> Configuración de los datos formal de la plantilla arriba, consulta a la contraseña correspondiente a cada usuario.
 >
-> ```sql
-> ALTER USER 'root'@'localhost' IDENTIFIED BY 'proyecto-3-tercer-trimestre';
-> FLUSH PRIVILEGES;
-> ```
+> **!!IMPORTANTE!! Ampliar el límite de latencia de conexión entre 2000 a 4000(ms) en nuestro caso de conexión remota.**
+>
+> Según la **rebuilding**(reconstrucción) de Aiven, es posible que los usuarios que utilicen la base de datos gratuita de Aiven se encuentren con un proceso de reconstrucción prolongado (que dura aproximadamente 10 minutos); durante ese tiempo, al establecer una conexión remota, es posible que aparezca el error `getaddrinfo ENOTFOUND ...`.
 
 ---
 
@@ -31,11 +30,7 @@ Cuatro tablas y una vista.
 La vista vista_actividades (no aparece como entidad porque no es tabla): hace LEFT JOIN entre actividades, empleados y actividad_animal + animales para que granja-web pueda mostrar las columnas empleado y animales con un único SELECT *. 
 
 Diagrama resumido:
-![alt text](GranjaMySQL_diagrama.jpeg)
-
-```
-empleados ──< actividades >── actividad_animal ──< animales
-```
+![alt text](diagrama.jpeg)
 
 ### `empleados`
 Personal de la granja: veterinarios, peones, encargados...
@@ -111,7 +106,7 @@ mysql -u root -p < datos-ejemplo.sql
 
 ### Opción B — MySQL Workbench
 
-1. Conéctate con la conexión `GranjaMySQL`.
+1. Connectar con la conexión `GranjaMySQL`.
 2. *File → Open SQL Script…* → abre `schema.sql` → ejecútalo (rayo amarillo).
 3. Repite con `datos-ejemplo.sql`.
 4. *Schemas → granja → Tables*: deberías ver `empleados`, `animales`, `actividades`, `actividad_animal`.
@@ -141,7 +136,7 @@ Si las dos consultas devuelven filas, la base está lista.
 ## Relación con el resto del proyecto
 
 - **`granja-web`** ya apunta a `database: 'granja'` en `server.js`, con `user: 'root'` y `password: ''`. Si fijas la contraseña anterior, **Valentina**, recuerda actualizar también `server.js`.
-- **`Programacion/GranjaDigital`** todavía no tiene capa de persistencia JDBC. Las clases `Animal`, `Empleado` y `Actividad` ya coinciden en campos con esta base, pero cuando se añada el JDBC, configuralo en `module-info.java` el `require java.sql` para luego la importación en **Eclipse**; eso sí funciona bien en VS Code solo quitar el archivo.
+- Connectar con Aiven mediante Java y [`JDBC Driver`](https://dev.mysql.com/downloads/connector/j/) para **`Programacion/GranjaDigital`**. Las clases `Animal`, `Empleado` y `Actividad` ya coinciden en campos con esta base, pero cuando se añada el JDBC, configuralo en `module-info.java` el `require java.sql` para luego la importación en el stack de **Eclipse**; Si trabaja con VS Code solo quitar el archivo.
 
 ---
 
