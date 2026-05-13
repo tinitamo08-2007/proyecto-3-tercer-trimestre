@@ -100,10 +100,10 @@ app.post('/api/consulta', (req, res) => {
     }
 
     const consultas = {
-        animales_especie:  'SELECT * FROM animales WHERE especie = ?',
-        empleados_rol:     'SELECT * FROM empleados WHERE rol = ?',
-        actividades_fecha: 'SELECT * FROM vista_actividades WHERE fecha = ?',
-        animales_salud:    'SELECT * FROM animales WHERE estado_salud = ?',
+        animales_especie:  "SELECT * FROM animales          WHERE especie      LIKE CONCAT('%', ?, '%')",
+        empleados_rol:     "SELECT * FROM empleados         WHERE rol          LIKE CONCAT('%', ?, '%')",
+        actividades_fecha: "SELECT * FROM vista_actividades WHERE fecha        LIKE CONCAT('%', ?, '%')",
+        animales_salud:    "SELECT * FROM animales          WHERE estado_salud LIKE CONCAT('%', ?, '%')",
     };
 
     if (!consultas[tipo]) {
