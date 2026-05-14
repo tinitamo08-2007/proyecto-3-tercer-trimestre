@@ -24,12 +24,12 @@ Permite registrar y consultar **animales, empleados y actividades diarias**, con
 
 
 **1. Clonar el repositorio
-**
+
 -- git clone https://github.com/tinitamo08-2007/proyecto-3-tercer-trimestre.git
 
 
 **2. Abrir el proyecto en Eclipse
-**
+
 1-Abrir Eclipse.
 
 2-Ir a:
@@ -41,7 +41,7 @@ Archivo -> Abrir projecto archivos de sistema....
 
 
 **3. Configurar la base de datos MySQL
-**
+
 1-Crear la base de datos:
 
 --CREATE DATABASE granja_digital;
@@ -52,7 +52,7 @@ Archivo -> Abrir projecto archivos de sistema....
 
 
 **4. Configurar conexión MySQL
-**
+
 **Editar el archivo:**
 
 config.properties
@@ -65,7 +65,7 @@ db.clave=tu_password
 
 
 **5. Ejecutar el proyecto
-**
+
 **Buscar la clase principal:**
 
 Principal.java
