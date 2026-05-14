@@ -20,7 +20,7 @@ Permite registrar y consultar **animales, empleados y actividades diarias**, con
 
 ---
 
-## 📁 Estructura del repositorio
+## Estructura del repositorio
 
 ```
 granja-digital/
@@ -52,7 +52,7 @@ granja-digital/
 
 ---
 
-## 🚀 Cómo ejecutarlo
+## Cómo ejecutarlo
 
 ### 1. Importar el proyecto en Eclipse
 `File → Open Projects from File System...` y selecciona la carpeta `app/`.
@@ -81,14 +81,14 @@ db.usuario=root
 db.clave=TU_PASSWORD_AQUI
 ```
 
-> ⚠️ El archivo `config.properties` está en `.gitignore` para que nunca subas credenciales reales.
+> El archivo `config.properties` está en `.gitignore` para que nunca subas credenciales reales.
 
 ### 5. Ejecutar
 Botón derecho sobre `Principal.java` → `Run As → Java Application`. Aparece el menú principal con 7 opciones.
 
 ---
 
-## 📐 Diseño de la base de datos
+## Diseño de la base de datos
 
 4 tablas en **3FN**: `empleado`, `animal`, `actividad`, `actividad_animal`. Una relación 1:N (empleado → actividad) y una N:M (actividad ↔ animal) resuelta con tabla intermedia.
 
@@ -102,7 +102,7 @@ La memoria completa (E/R, paso a relacional, 3FN, decisiones de diseño, scripts
 
 ---
 
-## 📑 Funcionalidades
+##  Funcionalidades
 
 - ✅ CRUD completo de animales, empleados y actividades
 - ✅ Cambio de estado del animal (VENDIDO / FALLECIDO / TRASLADADO)
@@ -129,15 +129,10 @@ app.get('/api/animales', async (req, res) => {
 
 ---
 
-## 📋 Cumplimiento del enunciado
+##  Cumplimiento del enunciado
 
 Todos los requisitos del enunciado están cubiertos (ver tabla en `docs/Memoria_General_GranjaDigital.docx`, sección 13). Incluye los siguientes extras:
 
 - Exportación a Excel y PDF
 - Reportes por consola
 
----
-
-## 👤 Autor
-
-**César** · 1.º DAM · Mayo 2026
