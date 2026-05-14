@@ -20,7 +20,8 @@ Permite registrar y consultar **animales, empleados y actividades diarias**, con
 | Build | Manual (lib/) o Maven (pom.xml) |
 
 
-##____¡Cómo ejecutar el proyecto!_____
+## COMO EJECUTAR EL PROYECTO
+
 
 **1. Clonar el repositorio
 **
