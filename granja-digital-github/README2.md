@@ -1,22 +1,26 @@
-🐄 Granja Digital
+# 🐄 Granja Digital
 
-Sistema integral de gestión para una explotación ganadera. Proyecto integrado de 1.º DAM (Programación + Bases de Datos).
+Sistema integral de gestión para una explotación ganadera. Proyecto integrado de **1.º DAM** (Programación + Bases de Datos).
 
-Permite registrar y consultar animales, empleados y actividades diarias, con persistencia en MySQL, logs en archivo y exportación a CSV, Excel y PDF.
+Permite registrar y consultar **animales, empleados y actividades diarias**, con persistencia en MySQL, logs en archivo y exportación a CSV, Excel y PDF.
 
-🛠️ Stack técnico
-
-Capa	Tecnología
-Lenguaje	Java 21 (JavaSE-21)
-IDE	Eclipse IDE
-Base de datos	MySQL 8.x (probado en local y Aiven)
-Driver	mysql-connector-j 9.0.0
-Excel	Apache POI 5.2.5
-PDF	iText 5.5.13
-Build	Manual (lib/) o Maven (pom.xml)
+---
 
 
-____¡Cómo ejecutar el proyecto!_____
+## 🛠️ Stack técnico
+
+| Capa | Tecnología |
+|---|---|
+| Lenguaje | Java 21 (JavaSE-21) |
+| IDE | Eclipse IDE |
+| Base de datos | MySQL 8.x (probado en local y Aiven) |
+| Driver | mysql-connector-j 9.0.0 |
+| Excel | Apache POI 5.2.5 |
+| PDF | iText 5.5.13 |
+| Build | Manual (lib/) o Maven (pom.xml) |
+
+
+##____¡Cómo ejecutar el proyecto!_____
 
 **1. Clonar el repositorio
 **
