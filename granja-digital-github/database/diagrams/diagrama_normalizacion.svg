@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1100" font-family="Segoe UI, Arial, sans-serif">
+  <style>
+    .titulo       { font-size: 26px; font-weight: 700; fill: #1b5e20; }
+    .subtitulo    { font-size: 14px; fill: #555; }
+    .paso-titulo  { font-size: 22px; font-weight: 700; fill: #ffffff; text-anchor: middle; }
+    .paso-cab     { fill: #1b5e20; }
+    .caja         { fill: #ffffff; stroke: #1b5e20; stroke-width: 1.8; }
+    .caja-mal     { fill: #ffebee; stroke: #c62828; stroke-width: 1.8; }
+    .caja-bien    { fill: #e8f5e9; stroke: #1b5e20; stroke-width: 1.8; }
+    .tabla-cab    { fill: #1b5e20; }
+    .tabla-titulo { font-size: 14px; font-weight: 700; fill: #ffffff; text-anchor: middle; }
+    .fila         { font-size: 12px; fill: #222; }
+    .fila-mala    { font-size: 12px; fill: #c62828; font-weight: 700; }
+    .pk           { font-weight: 700; fill: #b71c1c; }
+    .fk           { font-weight: 700; fill: #1565c0; }
+    .texto        { font-size: 13px; fill: #333; }
+    .check        { font-size: 18px; font-weight: 700; fill: #1b5e20; }
+    .cross        { font-size: 18px; font-weight: 700; fill: #c62828; }
+    .flecha-paso  { stroke: #f57f17; stroke-width: 3; fill: none; marker-end: url(#flechaorange); }
+  </style>
+
+  <defs>
+    <marker id="flechaorange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f57f17"/>
+    </marker>
+  </defs>
+
+  <!-- Titulo -->
+  <text x="700" y="38" class="titulo" text-anchor="middle">Proceso de Normalización – Granja Digital</text>
+  <text x="700" y="62" class="subtitulo" text-anchor="middle">De una tabla "todo en uno" hasta 3FN paso a paso</text>
+
+  <!-- ==================== PASO 0: NO NORMALIZADA ==================== -->
+  <rect x="60" y="90" width="1280" height="36" class="paso-cab"/>
+  <text x="700" y="115" class="paso-titulo">PARTIDA · Tabla sin normalizar (registro tipo "diario de granja")</text>
+
+  <rect x="60" y="126" width="1280" height="170" class="caja-mal"/>
+
+  <rect x="80" y="150" width="1240" height="28" class="tabla-cab"/>
+  <text x="700" y="170" class="tabla-titulo">diario (única tabla con todo mezclado)</text>
+
+  <text x="100" y="200" class="fila-mala">id_actividad | fecha | hora | tipo | descripción | nombre_empleado | rol | telefono | LISTA_DE_ANIMALES | especie | raza | estado_salud | ubicación</text>
+
+  <text x="100" y="226" class="texto" style="font-style: italic;">Ejemplo de fila: ( 7 ; 2026-05-10 ; 06:30 ; ORDENIE ; "matutino" ; "Juan Pérez" ; peón ; 655234567 ; "ARETE-001, ARETE-002" ; vaca ; Holstein ; buena ; Corral 1 )</text>
+
+  <text x="100" y="252" class="fila-mala">Problemas:</text>
+  <text x="100" y="270" class="texto">  <tspan class="cross">✗</tspan> "LISTA_DE_ANIMALES" es un grupo repetitivo (varios valores en una sola celda) — viola 1FN</text>
+  <text x="100" y="286" class="texto">  <tspan class="cross">✗</tspan> Los datos del empleado y del animal se repiten en cada actividad (redundancia y riesgo de inconsistencias)</text>
+
+  <!-- Flecha hacia paso 1 -->
+  <path d="M 700 296 L 700 326" class="flecha-paso"/>
+
+  <!-- ==================== PASO 1: 1FN ==================== -->
+  <rect x="60" y="328" width="1280" height="36" class="paso-cab"/>
+  <text x="700" y="353" class="paso-titulo">PASO 1 · Primera Forma Normal (1FN)</text>
+
+  <rect x="60" y="364" width="1280" height="190" class="caja-bien"/>
+
+  <text x="80" y="392" class="texto"><tspan class="check">✓</tspan> Regla 1FN: todos los atributos deben ser atómicos. No se admiten listas ni grupos repetitivos en una misma celda.</text>
+  <text x="80" y="412" class="texto"><tspan class="check">✓</tspan> Acción: separamos la lista de animales en filas individuales (una fila por cada animal en cada actividad).</text>
+
+  <!-- Tabla diario_1fn -->
+  <rect x="80" y="430" width="600" height="28" class="tabla-cab"/>
+  <text x="380" y="450" class="tabla-titulo">diario_1FN (un animal por fila)</text>
+  <rect x="80" y="458" width="600" height="86" class="caja"/>
+  <text x="100" y="478" class="fila">id_act | fecha | hora | tipo | nombre_empleado | rol | id_animal | especie | raza | salud</text>
+  <text x="100" y="500" class="fila">  7  | 2026-05-10 | 06:30 | ORDENIE | Juan Pérez | peón |  1  | vaca | Holstein | buena</text>
+  <text x="100" y="518" class="fila">  7  | 2026-05-10 | 06:30 | ORDENIE | Juan Pérez | peón |  2  | vaca | Pirenaica | buena</text>
+  <text x="100" y="536" class="fila">  8  | 2026-05-10 | 08:00 | ALIMENT. | Juan Pérez | peón |  1  | vaca | Holstein | buena</text>
+
+  <!-- Diagnóstico -->
+  <rect x="700" y="430" width="620" height="114" class="caja"/>
+  <text x="720" y="455" class="texto" style="font-weight: 700; fill: #1b5e20;">¿Qué hemos ganado?</text>
+  <text x="720" y="475" class="texto"><tspan class="check">✓</tspan> Cada celda contiene un único valor (atómico).</text>
+  <text x="720" y="495" class="texto"><tspan class="check">✓</tspan> Ya se puede definir una PK: (id_act, id_animal).</text>
+  <text x="720" y="515" class="texto" style="font-weight: 700; fill: #c62828;">Pero sigue habiendo problemas:</text>
+  <text x="720" y="535" class="texto"><tspan class="cross">✗</tspan> "Juan Pérez" y "peón" se repiten en cada animal de cada actividad.</text>
+
+  <path d="M 700 554 L 700 584" class="flecha-paso"/>
+
+  <!-- ==================== PASO 2: 2FN ==================== -->
+  <rect x="60" y="586" width="1280" height="36" class="paso-cab"/>
+  <text x="700" y="611" class="paso-titulo">PASO 2 · Segunda Forma Normal (2FN)</text>
+
+  <rect x="60" y="622" width="1280" height="200" class="caja-bien"/>
+
+  <text x="80" y="650" class="texto"><tspan class="check">✓</tspan> Regla 2FN: estando ya en 1FN, todos los atributos no clave deben depender de la PK <b>completa</b>, no solo de una parte.</text>
+  <text x="80" y="670" class="texto"><tspan class="check">✓</tspan> En la tabla anterior la PK era (id_act, id_animal). Los atributos del animal (especie, raza, salud) dependen <b>solo</b> de id_animal,</text>
+  <text x="80" y="687" class="texto">    y los atributos de la actividad (fecha, hora, tipo) dependen <b>solo</b> de id_act. Hay dependencia parcial → violación de 2FN.</text>
+  <text x="80" y="707" class="texto"><tspan class="check">✓</tspan> Acción: separamos en tres tablas — <b>actividad</b>, <b>animal</b> y la tabla intermedia <b>actividad_animal</b> (solo claves).</text>
+
+  <!-- tablas mini -->
+  <rect x="80" y="724"  width="280" height="22" class="tabla-cab"/>
+  <text x="220" y="740" class="tabla-titulo">actividad</text>
+  <rect x="80" y="746"  width="280" height="68" class="caja"/>
+  <text x="100" y="765" class="fila"><tspan class="pk">PK</tspan>  id, fecha, hora, tipo, descripción</text>
+  <text x="100" y="785" class="fila">(empleado todavía como texto)</text>
+  <text x="100" y="805" class="fila" style="fill:#c62828;">⚠ aún no está bien del todo</text>
+
+  <rect x="400" y="724" width="280" height="22" class="tabla-cab"/>
+  <text x="540" y="740" class="tabla-titulo">animal</text>
+  <rect x="400" y="746" width="280" height="68" class="caja"/>
+  <text x="420" y="765" class="fila"><tspan class="pk">PK</tspan>  id, especie, raza,</text>
+  <text x="420" y="785" class="fila">     identificador, estado_salud,</text>
+  <text x="420" y="805" class="fila">     ubicación, estado</text>
+
+  <rect x="720" y="724" width="280" height="22" class="tabla-cab"/>
+  <text x="860" y="740" class="tabla-titulo">actividad_animal</text>
+  <rect x="720" y="746" width="280" height="68" class="caja"/>
+  <text x="740" y="765" class="fila"><tspan class="pk">PK</tspan>+<tspan class="fk">FK</tspan>  id_actividad → actividad.id</text>
+  <text x="740" y="785" class="fila"><tspan class="pk">PK</tspan>+<tspan class="fk">FK</tspan>  id_animal → animal.id</text>
+  <text x="740" y="805" class="fila">PK compuesta</text>
+
+  <rect x="1040" y="724" width="280" height="90" class="caja"/>
+  <text x="1060" y="742" class="texto" style="font-weight:700; fill:#1b5e20;">¿Qué hemos ganado?</text>
+  <text x="1060" y="762" class="texto"><tspan class="check">✓</tspan> Animal vive aparte y no se</text>
+  <text x="1060" y="778" class="texto">     repite por cada actividad.</text>
+  <text x="1060" y="796" class="texto"><tspan class="cross">✗</tspan> Empleado todavía mezclado</text>
+  <text x="1060" y="812" class="texto">    dentro de actividad.</text>
+
+  <path d="M 700 822 L 700 852" class="flecha-paso"/>
+
+  <!-- ==================== PASO 3: 3FN ==================== -->
+  <rect x="60" y="854" width="1280" height="36" class="paso-cab"/>
+  <text x="700" y="879" class="paso-titulo">PASO 3 · Tercera Forma Normal (3FN) – Modelo final</text>
+
+  <rect x="60" y="890" width="1280" height="180" class="caja-bien"/>
+
+  <text x="80" y="916" class="texto"><tspan class="check">✓</tspan> Regla 3FN: estando ya en 2FN, ningún atributo no clave puede depender transitivamente de la PK (no clave → no clave → PK).</text>
+  <text x="80" y="934" class="texto"><tspan class="check">✓</tspan> En actividad, el "nombre_empleado" y el "rol" no dependen de id_actividad, dependen del propio empleado. Hay dependencia transitiva.</text>
+  <text x="80" y="952" class="texto"><tspan class="check">✓</tspan> Acción: extraemos los datos del empleado a su propia tabla y dejamos solo una FK en actividad.</text>
+
+  <rect x="80"  y="970"  width="280" height="22" class="tabla-cab"/>
+  <text x="220" y="986" class="tabla-titulo">empleado (nueva)</text>
+  <rect x="80"  y="992"  width="280" height="68" class="caja"/>
+  <text x="100" y="1011" class="fila"><tspan class="pk">PK</tspan>  id, nombre, rol,</text>
+  <text x="100" y="1031" class="fila">     teléfono, fecha_contratación</text>
+
+  <rect x="400" y="970"  width="280" height="22" class="tabla-cab"/>
+  <text x="540" y="986" class="tabla-titulo">actividad (limpia)</text>
+  <rect x="400" y="992"  width="280" height="68" class="caja"/>
+  <text x="420" y="1011" class="fila"><tspan class="pk">PK</tspan>  id, fecha, hora, tipo, descripción</text>
+  <text x="420" y="1031" class="fila"><tspan class="fk">FK</tspan>  id_empleado → empleado.id</text>
+  <text x="420" y="1051" class="fila">ya no incluye datos del empleado</text>
+
+  <rect x="720" y="970"  width="280" height="22" class="tabla-cab"/>
+  <text x="860" y="986" class="tabla-titulo">animal · actividad_animal</text>
+  <rect x="720" y="992"  width="280" height="68" class="caja"/>
+  <text x="740" y="1011" class="fila">animal y actividad_animal sin cambios</text>
+  <text x="740" y="1031" class="fila">(ya estaban bien desde 2FN)</text>
+
+  <rect x="1040" y="970" width="280" height="90" class="caja-bien"/>
+  <text x="1060" y="990" class="texto" style="font-weight:700; fill:#1b5e20;">Resultado en 3FN</text>
+  <text x="1060" y="1010" class="texto"><tspan class="check">✓</tspan> 4 tablas independientes</text>
+  <text x="1060" y="1026" class="texto"><tspan class="check">✓</tspan> Cada dato vive en un único sitio</text>
+  <text x="1060" y="1042" class="texto"><tspan class="check">✓</tspan> Sin redundancias</text>
+  <text x="1060" y="1058" class="texto"><tspan class="check">✓</tspan> Modelo definitivo del proyecto</text>
+</svg>

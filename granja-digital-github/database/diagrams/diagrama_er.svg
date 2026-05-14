@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" font-family="Segoe UI, Arial, sans-serif">
+  <style>
+    .titulo       { font-size: 26px; font-weight: 700; fill: #1b5e20; }
+    .subtitulo    { font-size: 14px; fill: #555; }
+    .entidad      { fill: #c8e6c9; stroke: #1b5e20; stroke-width: 2.5; }
+    .entidad-text { font-size: 22px; font-weight: 700; fill: #1b5e20; text-anchor: middle; }
+    .relacion     { fill: #fff59d; stroke: #f57f17; stroke-width: 2.5; }
+    .relacion-text{ font-size: 16px; font-weight: 700; fill: #e65100; text-anchor: middle; }
+    .atributo     { fill: #ffffff; stroke: #1b5e20; stroke-width: 1.4; }
+    .atributo-text{ font-size: 13px; fill: #222; text-anchor: middle; }
+    .clave        { text-decoration: underline; font-weight: 700; }
+    .linea        { stroke: #555; stroke-width: 1.5; fill: none; }
+    .card         { font-size: 18px; font-weight: 700; fill: #c62828; text-anchor: middle; }
+    .leyenda-box  { fill: #fafafa; stroke: #888; stroke-width: 1; }
+    .leyenda-text { font-size: 13px; fill: #333; }
+  </style>
+
+  <text x="700" y="42" class="titulo" text-anchor="middle">Diagrama Entidad / Relación – Granja Digital</text>
+  <text x="700" y="66" class="subtitulo" text-anchor="middle">Atributos clave subrayados · Cardinalidades en rojo</text>
+
+  <!-- ANIMAL -->
+  <rect x="60" y="420" width="200" height="70" rx="6" class="entidad"/>
+  <text x="160" y="463" class="entidad-text">ANIMAL</text>
+  <ellipse cx="65"  cy="290" rx="45" ry="22" class="atributo"/>
+  <text    x="65"  y="295" class="atributo-text clave">id</text>
+  <line x1="95"  y1="305" x2="115" y2="420" class="linea"/>
+  <ellipse cx="160" cy="240" rx="55" ry="22" class="atributo"/>
+  <text    x="160" y="245" class="atributo-text">especie</text>
+  <line x1="160" y1="262" x2="160" y2="420" class="linea"/>
+  <ellipse cx="265" cy="280" rx="55" ry="22" class="atributo"/>
+  <text    x="265" y="285" class="atributo-text">raza</text>
+  <line x1="245" y1="298" x2="200" y2="420" class="linea"/>
+  <ellipse cx="335" cy="370" rx="62" ry="22" class="atributo"/>
+  <text    x="335" y="375" class="atributo-text">ubicación</text>
+  <line x1="285" y1="385" x2="245" y2="430" class="linea"/>
+  <ellipse cx="65"  cy="610" rx="65" ry="22" class="atributo"/>
+  <text    x="65"  y="615" class="atributo-text clave">identificador</text>
+  <line x1="100" y1="600" x2="120" y2="490" class="linea"/>
+  <ellipse cx="160" cy="660" rx="75" ry="22" class="atributo"/>
+  <text    x="160" y="665" class="atributo-text">fecha_nacimiento</text>
+  <line x1="160" y1="638" x2="160" y2="490" class="linea"/>
+  <ellipse cx="265" cy="610" rx="65" ry="22" class="atributo"/>
+  <text    x="265" y="615" class="atributo-text">estado_salud</text>
+  <line x1="240" y1="595" x2="210" y2="490" class="linea"/>
+  <ellipse cx="335" cy="540" rx="55" ry="22" class="atributo"/>
+  <text    x="335" y="545" class="atributo-text">estado</text>
+  <line x1="290" y1="540" x2="252" y2="490" class="linea"/>
+
+  <!-- ACTIVIDAD -->
+  <rect x="600" y="420" width="220" height="70" rx="6" class="entidad"/>
+  <text x="710" y="463" class="entidad-text">ACTIVIDAD</text>
+  <ellipse cx="560" cy="290" rx="45" ry="22" class="atributo"/>
+  <text    x="560" y="295" class="atributo-text clave">id</text>
+  <line x1="585" y1="305" x2="640" y2="420" class="linea"/>
+  <ellipse cx="660" cy="240" rx="55" ry="22" class="atributo"/>
+  <text    x="660" y="245" class="atributo-text">fecha</text>
+  <line x1="660" y1="262" x2="680" y2="420" class="linea"/>
+  <ellipse cx="760" cy="240" rx="55" ry="22" class="atributo"/>
+  <text    x="760" y="245" class="atributo-text">hora</text>
+  <line x1="760" y1="262" x2="740" y2="420" class="linea"/>
+  <ellipse cx="860" cy="290" rx="55" ry="22" class="atributo"/>
+  <text    x="860" y="295" class="atributo-text">tipo</text>
+  <line x1="835" y1="305" x2="785" y2="420" class="linea"/>
+  <ellipse cx="710" cy="610" rx="75" ry="22" class="atributo"/>
+  <text    x="710" y="615" class="atributo-text">descripción</text>
+  <line x1="710" y1="588" x2="710" y2="490" class="linea"/>
+
+  <!-- EMPLEADO -->
+  <rect x="1140" y="420" width="200" height="70" rx="6" class="entidad"/>
+  <text x="1240" y="463" class="entidad-text">EMPLEADO</text>
+  <ellipse cx="1340" cy="290" rx="45" ry="22" class="atributo"/>
+  <text    x="1340" y="295" class="atributo-text clave">id</text>
+  <line x1="1315" y1="305" x2="1290" y2="420" class="linea"/>
+  <ellipse cx="1240" cy="240" rx="60" ry="22" class="atributo"/>
+  <text    x="1240" y="245" class="atributo-text">nombre</text>
+  <line x1="1240" y1="262" x2="1240" y2="420" class="linea"/>
+  <ellipse cx="1140" cy="290" rx="45" ry="22" class="atributo"/>
+  <text    x="1140" y="295" class="atributo-text">rol</text>
+  <line x1="1165" y1="305" x2="1190" y2="420" class="linea"/>
+  <ellipse cx="1180" cy="610" rx="60" ry="22" class="atributo"/>
+  <text    x="1180" y="615" class="atributo-text">teléfono</text>
+  <line x1="1200" y1="588" x2="1220" y2="490" class="linea"/>
+  <ellipse cx="1310" cy="610" rx="90" ry="22" class="atributo"/>
+  <text    x="1310" y="615" class="atributo-text">fecha_contratación</text>
+  <line x1="1290" y1="588" x2="1270" y2="490" class="linea"/>
+
+  <!-- Relacion participa_en -->
+  <polygon points="350,455 470,415 590,455 470,495" class="relacion"/>
+  <text x="470" y="461" class="relacion-text">participa_en</text>
+  <line x1="260" y1="455" x2="350" y2="455" class="linea"/>
+  <line x1="590" y1="455" x2="600" y2="455" class="linea"/>
+  <text x="285" y="445" class="card">M</text>
+  <text x="580" y="445" class="card">N</text>
+
+  <!-- Relacion realiza -->
+  <polygon points="850,455 970,415 1090,455 970,495" class="relacion"/>
+  <text x="970" y="461" class="relacion-text">realiza</text>
+  <line x1="820" y1="455" x2="850" y2="455" class="linea"/>
+  <line x1="1090" y1="455" x2="1140" y2="455" class="linea"/>
+  <text x="845" y="445" class="card">N</text>
+  <text x="1120" y="445" class="card">1</text>
+
+  <!-- Leyenda -->
+  <g transform="translate(60,740)">
+    <rect x="0" y="0" width="1280" height="130" rx="8" class="leyenda-box"/>
+    <text x="20" y="28" class="leyenda-text" style="font-weight:700; font-size:15px;">Leyenda</text>
+    <rect x="20" y="48" width="80" height="28" rx="4" class="entidad"/>
+    <text x="115" y="68" class="leyenda-text">Entidad fuerte</text>
+    <polygon points="280,62 320,47 360,62 320,77" class="relacion"/>
+    <text x="380" y="68" class="leyenda-text">Relación (rombo amarillo)</text>
+    <ellipse cx="640" cy="62" rx="40" ry="14" class="atributo"/>
+    <text x="640" y="66" class="atributo-text clave">clave</text>
+    <text x="695" y="68" class="leyenda-text">Atributo identificador (subrayado)</text>
+    <ellipse cx="970" cy="62" rx="40" ry="14" class="atributo"/>
+    <text x="970" y="66" class="atributo-text">atrib.</text>
+    <text x="1025" y="68" class="leyenda-text">Atributo normal</text>
+    <text x="20" y="105" class="leyenda-text">Cardinalidades: 1 = uno · N, M = varios. Un EMPLEADO realiza N ACTIVIDADES (cada actividad la realiza 1 empleado).</text>
+    <text x="20" y="124" class="leyenda-text">Una ACTIVIDAD puede involucrar M ANIMALES y un ANIMAL puede aparecer en N ACTIVIDADES (relación N:M).</text>
+  </g>
+</svg>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800" font-family="Segoe UI, Arial, sans-serif">
+  <style>
+    .titulo       { font-size: 26px; font-weight: 700; fill: #1b5e20; }
+    .subtitulo    { font-size: 14px; fill: #555; }
+    .tabla-bg     { fill: #ffffff; stroke: #1b5e20; stroke-width: 1.8; }
+    .tabla-cab    { fill: #1b5e20; }
+    .tabla-titulo { font-size: 18px; font-weight: 700; fill: #ffffff; text-anchor: middle; }
+    .fila         { font-size: 14px; fill: #222; }
+    .pk           { font-weight: 700; fill: #b71c1c; }
+    .fk           { font-weight: 700; fill: #1565c0; }
+    .separador    { stroke: #c8e6c9; stroke-width: 1; }
+    .fk-linea     { stroke: #1565c0; stroke-width: 2.2; fill: none; marker-end: url(#flecha); }
+    .leyenda-box  { fill: #fafafa; stroke: #888; stroke-width: 1; }
+    .leyenda-text { font-size: 13px; fill: #333; }
+    .nota         { font-size: 12px; fill: #666; }
+  </style>
+
+  <defs>
+    <marker id="flecha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1565c0"/>
+    </marker>
+  </defs>
+
+  <text x="700" y="42" class="titulo" text-anchor="middle">Esquema Relacional – Granja Digital</text>
+  <text x="700" y="66" class="subtitulo" text-anchor="middle"><tspan class="pk">PK</tspan> clave primaria · <tspan class="fk">FK</tspan> clave foránea · Las flechas azules van de FK hacia su PK referenciada</text>
+
+  <!-- ============ TABLA EMPLEADO (arriba izquierda) ============ -->
+  <g>
+    <rect x="80" y="110" width="320" height="36" class="tabla-cab"/>
+    <text x="240" y="135" class="tabla-titulo">empleado</text>
+    <rect x="80" y="146" width="320" height="190" class="tabla-bg"/>
+    <line x1="80" y1="180" x2="400" y2="180" class="separador"/>
+    <line x1="80" y1="210" x2="400" y2="210" class="separador"/>
+    <line x1="80" y1="240" x2="400" y2="240" class="separador"/>
+    <line x1="80" y1="270" x2="400" y2="270" class="separador"/>
+    <line x1="80" y1="300" x2="400" y2="300" class="separador"/>
+
+    <text x="100" y="172" class="fila"><tspan class="pk">PK</tspan>  id : INT AUTO_INCREMENT</text>
+    <text x="100" y="202" class="fila">nombre : VARCHAR(80) NOT NULL</text>
+    <text x="100" y="232" class="fila">rol : VARCHAR(30) NOT NULL</text>
+    <text x="100" y="262" class="fila">teléfono : VARCHAR(20)</text>
+    <text x="100" y="292" class="fila">fecha_contratación : DATE NOT NULL</text>
+    <text x="100" y="324" class="nota">CHECK (rol IN 'veterinario','peon','encargado'...)</text>
+  </g>
+
+  <!-- ============ TABLA ACTIVIDAD (arriba derecha) ============ -->
+  <g>
+    <rect x="540" y="110" width="320" height="36" class="tabla-cab"/>
+    <text x="700" y="135" class="tabla-titulo">actividad</text>
+    <rect x="540" y="146" width="320" height="220" class="tabla-bg"/>
+    <line x1="540" y1="180" x2="860" y2="180" class="separador"/>
+    <line x1="540" y1="210" x2="860" y2="210" class="separador"/>
+    <line x1="540" y1="240" x2="860" y2="240" class="separador"/>
+    <line x1="540" y1="270" x2="860" y2="270" class="separador"/>
+    <line x1="540" y1="300" x2="860" y2="300" class="separador"/>
+    <line x1="540" y1="330" x2="860" y2="330" class="separador"/>
+
+    <text x="560" y="172" class="fila"><tspan class="pk">PK</tspan>  id : INT AUTO_INCREMENT</text>
+    <text x="560" y="202" class="fila">fecha : DATE NOT NULL</text>
+    <text x="560" y="232" class="fila">hora : TIME NOT NULL</text>
+    <text x="560" y="262" class="fila">tipo : ENUM(...) NOT NULL</text>
+    <text x="560" y="292" class="fila">descripción : VARCHAR(255)</text>
+    <text x="560" y="322" class="fila"><tspan class="fk">FK</tspan>  id_empleado → empleado.id</text>
+    <text x="560" y="354" class="nota">ON DELETE RESTRICT</text>
+  </g>
+
+  <!-- ============ TABLA ACTIVIDAD_ANIMAL (centro abajo) ============ -->
+  <g>
+    <rect x="540" y="490" width="320" height="36" class="tabla-cab"/>
+    <text x="700" y="515" class="tabla-titulo">actividad_animal</text>
+    <rect x="540" y="526" width="320" height="140" class="tabla-bg"/>
+    <line x1="540" y1="560" x2="860" y2="560" class="separador"/>
+    <line x1="540" y1="590" x2="860" y2="590" class="separador"/>
+    <line x1="540" y1="620" x2="860" y2="620" class="separador"/>
+
+    <text x="560" y="552" class="fila"><tspan class="pk">PK</tspan>+<tspan class="fk">FK</tspan>  id_actividad → actividad.id</text>
+    <text x="560" y="582" class="fila"><tspan class="pk">PK</tspan>+<tspan class="fk">FK</tspan>  id_animal → animal.id</text>
+    <text x="560" y="612" class="fila">PK compuesta: (id_actividad, id_animal)</text>
+    <text x="560" y="644" class="nota">ON DELETE CASCADE en ambas FK</text>
+  </g>
+
+  <!-- ============ TABLA ANIMAL (abajo izquierda) ============ -->
+  <g>
+    <rect x="80" y="430" width="320" height="36" class="tabla-cab"/>
+    <text x="240" y="455" class="tabla-titulo">animal</text>
+    <rect x="80" y="466" width="320" height="260" class="tabla-bg"/>
+    <line x1="80" y1="500" x2="400" y2="500" class="separador"/>
+    <line x1="80" y1="530" x2="400" y2="530" class="separador"/>
+    <line x1="80" y1="560" x2="400" y2="560" class="separador"/>
+    <line x1="80" y1="590" x2="400" y2="590" class="separador"/>
+    <line x1="80" y1="620" x2="400" y2="620" class="separador"/>
+    <line x1="80" y1="650" x2="400" y2="650" class="separador"/>
+    <line x1="80" y1="680" x2="400" y2="680" class="separador"/>
+
+    <text x="100" y="492" class="fila"><tspan class="pk">PK</tspan>  id : INT AUTO_INCREMENT</text>
+    <text x="100" y="522" class="fila">especie : VARCHAR(40) NOT NULL</text>
+    <text x="100" y="552" class="fila">raza : VARCHAR(40) NOT NULL</text>
+    <text x="100" y="582" class="fila">fecha_nacimiento : DATE</text>
+    <text x="100" y="612" class="fila">identificador : VARCHAR(30) UNIQUE</text>
+    <text x="100" y="642" class="fila">estado_salud : VARCHAR(20)</text>
+    <text x="100" y="672" class="fila">ubicación : VARCHAR(40)</text>
+    <text x="100" y="702" class="fila">estado : ENUM(...)</text>
+  </g>
+
+  <!-- ============ Flechas FK ============ -->
+  <!-- actividad.id_empleado → empleado.id -->
+  <path d="M 540 322 C 470 322, 440 250, 400 250" class="fk-linea"/>
+  <!-- actividad_animal.id_actividad → actividad.id -->
+  <path d="M 700 526 L 700 366" class="fk-linea"/>
+  <!-- actividad_animal.id_animal → animal.id -->
+  <path d="M 540 582 C 450 582, 420 492, 400 492" class="fk-linea"/>
+
+  <!-- ============ Leyenda ============ -->
+  <g transform="translate(80,740)">
+    <rect x="0" y="0" width="1240" height="50" rx="6" class="leyenda-box"/>
+    <text x="20" y="22" class="leyenda-text"><tspan class="pk">PK</tspan> Clave primaria · <tspan class="fk">FK</tspan> Clave foránea (flecha azul apunta a la PK referenciada)</text>
+    <text x="20" y="42" class="leyenda-text">Modelo en 3FN: 1FN (atributos atómicos) · 2FN (no hay dependencia parcial de la PK) · 3FN (sin dependencias transitivas).</text>
+  </g>
+</svg>

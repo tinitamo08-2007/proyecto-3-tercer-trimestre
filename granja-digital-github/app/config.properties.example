@@ -1,0 +1,20 @@
+# =================================================================
+#  Granja Digital - PLANTILLA DE CONFIGURACIÓN
+#
+#  Copia este archivo como "config.properties" (sin .example) y
+#  edítalo con tus credenciales reales.
+#
+#  IMPORTANTE: config.properties está en .gitignore. Nunca subas
+#  credenciales reales al repositorio.
+# =================================================================
+
+# === Opción A: MySQL local ===
+db.url=jdbc:mysql://localhost:3306/granja_digital?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+db.usuario=root
+db.clave=TU_CONTRASENA_LOCAL
+
+# === Opción B: MySQL en la nube (Aiven, AWS RDS, PlanetScale...) ===
+# Descomenta las 3 líneas siguientes y comenta las de arriba.
+# db.url=jdbc:mysql://tu-servidor.aivencloud.com:18071/granja?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+# db.usuario=TU_USUARIO_REMOTO
+# db.clave=TU_CONTRASENA_REMOTA
