@@ -8,12 +8,12 @@
 -- ===================================================================
 
 -- 1. Crear (o borrar y crear) la base de datos.
-DROP DATABASE IF EXISTS granja_digital;
-CREATE DATABASE granja_digital
+DROP DATABASE IF EXISTS granja;
+CREATE DATABASE granja
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_unicode_ci;
 
-USE granja_digital;
+USE granja;
 
 -- ===================================================================
 -- TABLA EMPLEADO
@@ -58,11 +58,11 @@ CREATE TABLE actividad (
     tipo            ENUM('ORDENIE','ALIMENTACION','VACUNACION','LIMPIEZA','OTRA')
                             NOT NULL,
     descripcion     VARCHAR(255) NULL,
-    id_empleado     INT     NOT NULL,
+    id_empleado     INT     NULL,
     CONSTRAINT fk_actividad_empleado
         FOREIGN KEY (id_empleado) REFERENCES empleado(id)
         ON UPDATE CASCADE
-        ON DELETE RESTRICT
+        ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
 CREATE INDEX idx_actividad_fecha ON actividad(fecha);
@@ -88,8 +88,7 @@ CREATE TABLE actividad_animal (
 ) ENGINE=InnoDB;
 
 -- ===================================================================
--- (OPCIONAL) TABLA USUARIO para autenticación de administradores.
---  No es obligatoria; se deja preparada para el extra de
+--  TABLA USUARIO para autenticación de administradores.
 --  "autenticación básica".
 -- ===================================================================
 CREATE TABLE usuario (
@@ -99,7 +98,20 @@ CREATE TABLE usuario (
     rol         ENUM('ADMIN','OPERADOR') NOT NULL DEFAULT 'OPERADOR',
     activo      BOOLEAN         NOT NULL DEFAULT TRUE
 ) ENGINE=InnoDB;
-
+-- ===================================================================
+--creacion de vistas 
+-- ===================================================================
+CREATE OR REPLACE VIEW vista_actividades AS
+SELECT
+    a.id, a.fecha, a.hora, a.tipo,
+    a.descripcion, a.id_empleado,
+    e.nombre AS empleado,
+    GROUP_CONCAT(an.identificador ORDER BY an.identificador SEPARATOR ', ') AS animales
+FROM actividad a
+LEFT JOIN empleado        e  ON a.id_empleado   = e.id
+LEFT JOIN actividad_animal aa ON aa.id_actividad = a.id
+LEFT JOIN animal          an ON aa.id_animal     = an.id
+GROUP BY a.id, a.fecha, a.hora, a.tipo, a.descripcion, a.id_empleado, e.nombre;
 -- ===================================================================
 -- Comprobación rápida
 -- ===================================================================
