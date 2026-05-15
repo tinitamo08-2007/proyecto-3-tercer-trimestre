@@ -12,11 +12,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // CONEXIÓN A MYSQL
+// Reconstruye la BD en Aiven con script_creacion_aiven.sql antes de arrancar
 const conexion = mysql.createConnection({
     host:     'granja-mysql-granjamysql.j.aivencloud.com',
     user:     'avnadmin',
     port:     '18071',
-    password: 'AVNS_uN8EqkMrT39tJLGXsfC',  
+    password: 'AQUI_VA_LA_CONTRASEÑA_REAL',   // ← pon la contraseña real de Aiven
     database: 'granja',
 });
 
@@ -28,7 +29,8 @@ conexion.connect((err) => {
     }
 });
 
-// DATOS DE DEMO
+// DATOS DE DEMO  (coinciden exactamente con script_datos_ejemplo.sql)
+// Clave 'tipo' para que coincida con la columna tipo ENUM de la tabla actividad
 const DEMO = {
     animales: [
         { id:1, especie:'vaca',    raza:'Holstein',         identificador:'ARETE-001', estado_salud:'buena',   ubicacion:'Corral 1' },
@@ -46,13 +48,12 @@ const DEMO = {
         { id:4, nombre:'Carlos Romero',   rol:'peon',        telefono:'633998877' },
         { id:5, nombre:'Sofia Ruiz',      rol:'veterinario', telefono:'611222333' },
     ],
-    // CORRECCIÓN 1: clave renombrada de 'tipo' a 'tipo_actividad' para coincidir con la columna de la BD
     actividades: [
-        { id:1, fecha:'2026-05-10', hora:'06:30', tipo_actividad:'ORDENIE',      empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002' },
-        { id:2, fecha:'2026-05-10', hora:'08:00', tipo_actividad:'ALIMENTACION', empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002, ARETE-003' },
-        { id:3, fecha:'2026-05-10', hora:'10:15', tipo_actividad:'VACUNACION',   empleado:'Maria Lopez',   animales:'ARETE-102' },
-        { id:4, fecha:'2026-05-10', hora:'17:30', tipo_actividad:'LIMPIEZA',     empleado:'Carlos Romero', animales:'ANILLA-301' },
-        { id:5, fecha:'2026-05-11', hora:'06:30', tipo_actividad:'ORDENIE',      empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002' },
+        { id:1, fecha:'2026-05-10', hora:'06:30', tipo:'ORDENIE',      empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002' },
+        { id:2, fecha:'2026-05-10', hora:'08:00', tipo:'ALIMENTACION', empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002, ARETE-003' },
+        { id:3, fecha:'2026-05-10', hora:'10:15', tipo:'VACUNACION',   empleado:'Maria Lopez',   animales:'ARETE-102' },
+        { id:4, fecha:'2026-05-10', hora:'17:30', tipo:'LIMPIEZA',     empleado:'Carlos Romero', animales:'ANILLA-301' },
+        { id:5, fecha:'2026-05-11', hora:'06:30', tipo:'ORDENIE',      empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002' },
     ],
 };
 
@@ -70,8 +71,7 @@ function hacerConsulta(sql, params, callback) {
 
 // APIs GET
 app.get('/api/animales', (req, res) => {
-    // CORRECCIÓN 2: 'animal' → 'animales'
-    hacerConsulta('SELECT * FROM animales', [], (datos) => {
+    hacerConsulta('SELECT * FROM animal', [], (datos) => {
         res.json({
             data: datos || DEMO.animales,
             demo: !datos
@@ -80,8 +80,7 @@ app.get('/api/animales', (req, res) => {
 });
 
 app.get('/api/empleados', (req, res) => {
-    // CORRECCIÓN 3: 'empleado' → 'empleados'
-    hacerConsulta('SELECT * FROM empleados', [], (datos) => {
+    hacerConsulta('SELECT * FROM empleado', [], (datos) => {
         res.json({
             data: datos || DEMO.empleados,
             demo: !datos
@@ -90,6 +89,7 @@ app.get('/api/empleados', (req, res) => {
 });
 
 app.get('/api/actividades', (req, res) => {
+    // vista_actividades hace el JOIN con empleado y animal automáticamente
     hacerConsulta('SELECT * FROM vista_actividades', [], (datos) => {
         res.json({
             data: datos || DEMO.actividades,
@@ -98,7 +98,7 @@ app.get('/api/actividades', (req, res) => {
     });
 });
 
-// API POST
+// API POST — consultas filtradas desde el formulario web
 app.post('/api/consulta', (req, res) => {
     const tipo   = req.body.tipo;
     const filtro = req.body.filtro;
@@ -106,16 +106,15 @@ app.post('/api/consulta', (req, res) => {
     if (!tipo) {
         return res.status(400).json({
             error: 'Falta el campo tipo',
-            ejemplo: '{ "tipo": "animales_especie", "filtro": "Bovino" }'
+            ejemplo: '{ "tipo": "animales_especie", "filtro": "vaca" }'
         });
     }
 
-    // CORRECCIÓN 4: 'animal' → 'animales' y 'empleado' → 'empleados' en las 4 consultas
     const consultas = {
-        animales_especie:  "SELECT * FROM animales          WHERE especie      LIKE CONCAT('%', ?, '%')",
-        empleados_rol:     "SELECT * FROM empleados          WHERE rol          LIKE CONCAT('%', ?, '%')",
-        actividades_fecha: "SELECT * FROM vista_actividades  WHERE fecha        LIKE CONCAT('%', ?, '%')",
-        animales_salud:    "SELECT * FROM animales           WHERE estado_salud LIKE CONCAT('%', ?, '%')",
+        animales_especie:  "SELECT * FROM animal     WHERE especie      LIKE CONCAT('%', ?, '%')",
+        empleados_rol:     "SELECT * FROM empleado   WHERE rol          LIKE CONCAT('%', ?, '%')",
+        actividades_fecha: "SELECT * FROM vista_actividades WHERE fecha LIKE CONCAT('%', ?, '%')",
+        animales_salud:    "SELECT * FROM animal     WHERE estado_salud LIKE CONCAT('%', ?, '%')",
     };
 
     if (!consultas[tipo]) {
@@ -138,15 +137,10 @@ app.post('/api/consulta', (req, res) => {
 // GET /api/stats
 app.get('/api/stats', (req, res) => {
     if (conexion.state === 'authenticated') {
-        // CORRECCIÓN 5: cuatro errores de nombres de tabla en este bloque:
-        //   'animal'   → 'animales'
-        //   'Sano'     → 'buena'  (el valor real que usa la BD y el DEMO)
-        //   'empleadO' → 'empleados'  (tenía una O mayúscula y era singular)
-        //   'actividad'→ 'actividades'
-        const sqlAnimales    = 'SELECT COUNT(*) AS total FROM animales';
-        const sqlSanos       = "SELECT COUNT(*) AS total FROM animales WHERE estado_salud = 'buena'";
-        const sqlEmpleados   = 'SELECT COUNT(*) AS total FROM empleados';
-        const sqlActividades = 'SELECT COUNT(*) AS total FROM actividades';
+        const sqlAnimales    = 'SELECT COUNT(*) AS total FROM animal';
+        const sqlSanos       = "SELECT COUNT(*) AS total FROM animal WHERE estado_salud = 'buena'";
+        const sqlEmpleados   = 'SELECT COUNT(*) AS total FROM empleado';
+        const sqlActividades = 'SELECT COUNT(*) AS total FROM actividad';
 
         Promise.all([
             new Promise((resolve) => hacerConsulta(sqlAnimales, [], resolve)),
