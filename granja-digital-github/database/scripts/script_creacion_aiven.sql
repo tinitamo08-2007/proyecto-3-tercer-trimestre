@@ -43,9 +43,9 @@ CREATE TABLE actividad (
     tipo            ENUM('ORDENIE','ALIMENTACION','VACUNACION','LIMPIEZA','OTRA')
                             NOT NULL,
     descripcion     VARCHAR(255) NULL,
-    id_empleado     INT     NOT NULL,
+    id_empleado     INT     NULL,
     FOREIGN KEY (id_empleado) REFERENCES empleado(id)
-        ON UPDATE CASCADE ON DELETE RESTRICT
+        ON UPDATE CASCADE ON DELETE SET NULL
 ) ENGINE=InnoDB;
 
 CREATE INDEX idx_actividad_fecha ON actividad(fecha);
@@ -68,6 +68,18 @@ CREATE TABLE usuario (
     rol         ENUM('ADMIN','OPERADOR') NOT NULL DEFAULT 'OPERADOR',
     activo      BOOLEAN         NOT NULL DEFAULT TRUE
 ) ENGINE=InnoDB;
+
+CREATE OR REPLACE VIEW vista_actividades AS
+SELECT
+    a.id, a.fecha, a.hora, a.tipo,
+    a.descripcion, a.id_empleado,
+    e.nombre AS empleado,
+    GROUP_CONCAT(an.identificador ORDER BY an.identificador SEPARATOR ', ') AS animales
+FROM actividad a
+LEFT JOIN empleado        e  ON a.id_empleado   = e.id
+LEFT JOIN actividad_animal aa ON aa.id_actividad = a.id
+LEFT JOIN animal          an ON aa.id_animal     = an.id
+GROUP BY a.id, a.fecha, a.hora, a.tipo, a.descripcion, a.id_empleado, e.nombre;
 
 -- Datos de ejemplo
 INSERT INTO empleado (nombre, rol, telefono, fecha_contratacion) VALUES
