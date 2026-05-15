@@ -31,19 +31,27 @@ conexion.connect((err) => {
 // DATOS DE DEMO
 const DEMO = {
     animales: [
-        { id: 1, especie: 'Bovino',  raza: 'Holstein', fecha_nacimiento: '2020-03-15', identificador: 'A-001', estado_salud: 'Sano',           ubicacion: 'Corral 1'  },
-        { id: 2, especie: 'Porcino', raza: 'Duroc',    fecha_nacimiento: '2021-07-22', identificador: 'A-002', estado_salud: 'Sano',           ubicacion: 'Potrero 2' },
-        { id: 3, especie: 'Ovino',   raza: 'Merino',   fecha_nacimiento: '2019-11-08', identificador: 'A-003', estado_salud: 'En tratamiento', ubicacion: 'Corral 3'  },
+        { id:1, especie:'vaca',    raza:'Holstein',         identificador:'ARETE-001', estado_salud:'buena',   ubicacion:'Corral 1' },
+        { id:2, especie:'vaca',    raza:'Pirenaica',        identificador:'ARETE-002', estado_salud:'buena',   ubicacion:'Corral 1' },
+        { id:3, especie:'vaca',    raza:'Holstein',         identificador:'ARETE-003', estado_salud:'regular', ubicacion:'Corral 2' },
+        { id:4, especie:'oveja',   raza:'Merina',           identificador:'ARETE-101', estado_salud:'buena',   ubicacion:'Potrero Norte' },
+        { id:5, especie:'oveja',   raza:'Latxa',            identificador:'ARETE-102', estado_salud:'grave',   ubicacion:'Enfermeria' },
+        { id:6, especie:'cerdo',   raza:'Duroc',            identificador:'CHIP-201',  estado_salud:'buena',   ubicacion:'Corral 3' },
+        { id:7, especie:'gallina', raza:'Castellana negra', identificador:'ANILLA-301',estado_salud:'buena',   ubicacion:'Gallinero' },
     ],
     empleados: [
-        { id: 1, nombre: 'Carlos Martínez', rol: 'Veterinario', telefono: '612345678', fecha_contratacion: '2022-01-10' },
-        { id: 2, nombre: 'Ana López',       rol: 'Encargada',   telefono: '623456789', fecha_contratacion: '2021-06-01' },
-        { id: 3, nombre: 'Pedro Sánchez',   rol: 'Peón',        telefono: '634567890', fecha_contratacion: '2023-03-15' },
+        { id:1, nombre:'Maria Lopez',     rol:'veterinario', telefono:'666111222' },
+        { id:2, nombre:'Juan Perez',      rol:'peon',        telefono:'655234567' },
+        { id:3, nombre:'Lucia Fernandez', rol:'encargado',   telefono:'644555888' },
+        { id:4, nombre:'Carlos Romero',   rol:'peon',        telefono:'633998877' },
+        { id:5, nombre:'Sofia Ruiz',      rol:'veterinario', telefono:'611222333' },
     ],
     actividades: [
-        { id: 1, fecha: '2024-05-01', hora: '08:00', tipo_actividad: 'Ordeño',       empleado: 'Ana López',       animales: 'A-001, A-002' },
-        { id: 2, fecha: '2024-05-01', hora: '09:30', tipo_actividad: 'Vacunación',   empleado: 'Carlos Martínez', animales: 'A-003'        },
-        { id: 3, fecha: '2024-05-02', hora: '07:00', tipo_actividad: 'Alimentación', empleado: 'Pedro Sánchez',   animales: 'A-001, A-002, A-003' },
+        { id:1, fecha:'2026-05-10', hora:'06:30', tipo:'ORDENIE',      empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002' },
+        { id:2, fecha:'2026-05-10', hora:'08:00', tipo:'ALIMENTACION', empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002, ARETE-003' },
+        { id:3, fecha:'2026-05-10', hora:'10:15', tipo:'VACUNACION',   empleado:'Maria Lopez',   animales:'ARETE-102' },
+        { id:4, fecha:'2026-05-10', hora:'17:30', tipo:'LIMPIEZA',     empleado:'Carlos Romero', animales:'ANILLA-301' },
+        { id:5, fecha:'2026-05-11', hora:'06:30', tipo:'ORDENIE',      empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002' },
     ],
 };
 
@@ -61,7 +69,7 @@ function hacerConsulta(sql, params, callback) {
 
 // APIs GET
 app.get('/api/animales', (req, res) => {
-    hacerConsulta('SELECT * FROM animales', [], (datos) => {
+    hacerConsulta('SELECT * FROM animal', [], (datos) => {
         res.json({
             data: datos || DEMO.animales,
             demo: !datos
@@ -70,7 +78,7 @@ app.get('/api/animales', (req, res) => {
 });
 
 app.get('/api/empleados', (req, res) => {
-    hacerConsulta('SELECT * FROM empleados', [], (datos) => {
+    hacerConsulta('SELECT * FROM empleado', [], (datos) => {
         res.json({
             data: datos || DEMO.empleados,
             demo: !datos
@@ -100,10 +108,10 @@ app.post('/api/consulta', (req, res) => {
     }
 
     const consultas = {
-        animales_especie:  "SELECT * FROM animales          WHERE especie      LIKE CONCAT('%', ?, '%')",
-        empleados_rol:     "SELECT * FROM empleados         WHERE rol          LIKE CONCAT('%', ?, '%')",
+        animales_especie:  "SELECT * FROM animal          WHERE especie      LIKE CONCAT('%', ?, '%')",
+        empleados_rol:     "SELECT * FROM empleado         WHERE rol          LIKE CONCAT('%', ?, '%')",
         actividades_fecha: "SELECT * FROM vista_actividades WHERE fecha        LIKE CONCAT('%', ?, '%')",
-        animales_salud:    "SELECT * FROM animales          WHERE estado_salud LIKE CONCAT('%', ?, '%')",
+        animales_salud:    "SELECT * FROM animal          WHERE estado_salud LIKE CONCAT('%', ?, '%')",
     };
 
     if (!consultas[tipo]) {
@@ -127,10 +135,10 @@ app.post('/api/consulta', (req, res) => {
 app.get('/api/stats', (req, res) => {
     // Si hay conexión a la BD, hacemos consultas reales
     if (conexion.state === 'authenticated') {
-        const sqlAnimales     = 'SELECT COUNT(*) AS total FROM animales';
+        const sqlAnimales     = 'SELECT COUNT(*) AS total FROM animal';
         const sqlSanos        = "SELECT COUNT(*) AS total FROM animales WHERE estado_salud = 'Sano'";
-        const sqlEmpleados    = 'SELECT COUNT(*) AS total FROM empleados';
-        const sqlActividades  = 'SELECT COUNT(*) AS total FROM actividades';
+        const sqlEmpleados    = 'SELECT COUNT(*) AS total FROM empleadO';
+        const sqlActividades  = 'SELECT COUNT(*) AS total FROM actividad';
 
         Promise.all([
             new Promise((resolve) => hacerConsulta(sqlAnimales, [], resolve)),
@@ -141,7 +149,7 @@ app.get('/api/stats', (req, res) => {
             res.json({
                 data: {
                     animales:    ani ? ani[0].total : DEMO.animales.length,
-                    sanos:       san ? san[0].total : DEMO.animales.filter(a => a.estado_salud === 'Sano').length,
+                    sanos:       san ? san[0].total : DEMO.animales.filter(a => a.estado_salud === 'buena').length,
                     empleados:   emp ? emp[0].total : DEMO.empleados.length,
                     actividades: act ? act[0].total : DEMO.actividades.length
                 },
@@ -150,7 +158,7 @@ app.get('/api/stats', (req, res) => {
         });
     } else {
         // Sin BD: datos de demostración
-        const totalSanos = DEMO.animales.filter(a => a.estado_salud === 'Sano').length;
+        const totalSanos = DEMO.animales.filter(a => a.estado_salud === 'buena').length;
         res.json({
             data: {
                 animales:    DEMO.animales.length,
