@@ -16,7 +16,7 @@ const conexion = mysql.createConnection({
     host:     'granja-mysql-granjamysql.j.aivencloud.com',
     user:     'avnadmin',
     port:     '18071',
-    password: 'AQUI_VA_LA_CONTRASEÑA_REAL',   // ← reemplaza esto con la contraseña real
+    password: 'AVNS_uN8EqkMrT39tJLGXsfC',  
     database: 'granja',
 });
 
