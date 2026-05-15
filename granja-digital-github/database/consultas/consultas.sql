@@ -4,7 +4,7 @@
 --  y las que se podrán reutilizar en la versión web.
 -- ===================================================================
 
-USE granja_digital;
+USE granja;
 
 -- -------------------------------------------------------------------
 -- 1. Listado completo de animales (orden por ID)
