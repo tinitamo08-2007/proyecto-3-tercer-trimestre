@@ -16,7 +16,7 @@ const conexion = mysql.createConnection({
     host:     'granja-mysql-granjamysql.j.aivencloud.com',
     user:     'avnadmin',
     port:     '18071',
-    password: '(Mete aquí la contraseña)',
+    password: 'AQUI_VA_LA_CONTRASEÑA_REAL',   // ← reemplaza esto con la contraseña real
     database: 'granja',
 });
 
@@ -46,12 +46,13 @@ const DEMO = {
         { id:4, nombre:'Carlos Romero',   rol:'peon',        telefono:'633998877' },
         { id:5, nombre:'Sofia Ruiz',      rol:'veterinario', telefono:'611222333' },
     ],
+    // CORRECCIÓN 1: clave renombrada de 'tipo' a 'tipo_actividad' para coincidir con la columna de la BD
     actividades: [
-        { id:1, fecha:'2026-05-10', hora:'06:30', tipo:'ORDENIE',      empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002' },
-        { id:2, fecha:'2026-05-10', hora:'08:00', tipo:'ALIMENTACION', empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002, ARETE-003' },
-        { id:3, fecha:'2026-05-10', hora:'10:15', tipo:'VACUNACION',   empleado:'Maria Lopez',   animales:'ARETE-102' },
-        { id:4, fecha:'2026-05-10', hora:'17:30', tipo:'LIMPIEZA',     empleado:'Carlos Romero', animales:'ANILLA-301' },
-        { id:5, fecha:'2026-05-11', hora:'06:30', tipo:'ORDENIE',      empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002' },
+        { id:1, fecha:'2026-05-10', hora:'06:30', tipo_actividad:'ORDENIE',      empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002' },
+        { id:2, fecha:'2026-05-10', hora:'08:00', tipo_actividad:'ALIMENTACION', empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002, ARETE-003' },
+        { id:3, fecha:'2026-05-10', hora:'10:15', tipo_actividad:'VACUNACION',   empleado:'Maria Lopez',   animales:'ARETE-102' },
+        { id:4, fecha:'2026-05-10', hora:'17:30', tipo_actividad:'LIMPIEZA',     empleado:'Carlos Romero', animales:'ANILLA-301' },
+        { id:5, fecha:'2026-05-11', hora:'06:30', tipo_actividad:'ORDENIE',      empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002' },
     ],
 };
 
@@ -69,7 +70,8 @@ function hacerConsulta(sql, params, callback) {
 
 // APIs GET
 app.get('/api/animales', (req, res) => {
-    hacerConsulta('SELECT * FROM animal', [], (datos) => {
+    // CORRECCIÓN 2: 'animal' → 'animales'
+    hacerConsulta('SELECT * FROM animales', [], (datos) => {
         res.json({
             data: datos || DEMO.animales,
             demo: !datos
@@ -78,7 +80,8 @@ app.get('/api/animales', (req, res) => {
 });
 
 app.get('/api/empleados', (req, res) => {
-    hacerConsulta('SELECT * FROM empleado', [], (datos) => {
+    // CORRECCIÓN 3: 'empleado' → 'empleados'
+    hacerConsulta('SELECT * FROM empleados', [], (datos) => {
         res.json({
             data: datos || DEMO.empleados,
             demo: !datos
@@ -107,11 +110,12 @@ app.post('/api/consulta', (req, res) => {
         });
     }
 
+    // CORRECCIÓN 4: 'animal' → 'animales' y 'empleado' → 'empleados' en las 4 consultas
     const consultas = {
-        animales_especie:  "SELECT * FROM animal          WHERE especie      LIKE CONCAT('%', ?, '%')",
-        empleados_rol:     "SELECT * FROM empleado         WHERE rol          LIKE CONCAT('%', ?, '%')",
-        actividades_fecha: "SELECT * FROM vista_actividades WHERE fecha        LIKE CONCAT('%', ?, '%')",
-        animales_salud:    "SELECT * FROM animal          WHERE estado_salud LIKE CONCAT('%', ?, '%')",
+        animales_especie:  "SELECT * FROM animales          WHERE especie      LIKE CONCAT('%', ?, '%')",
+        empleados_rol:     "SELECT * FROM empleados          WHERE rol          LIKE CONCAT('%', ?, '%')",
+        actividades_fecha: "SELECT * FROM vista_actividades  WHERE fecha        LIKE CONCAT('%', ?, '%')",
+        animales_salud:    "SELECT * FROM animales           WHERE estado_salud LIKE CONCAT('%', ?, '%')",
     };
 
     if (!consultas[tipo]) {
@@ -131,14 +135,18 @@ app.post('/api/consulta', (req, res) => {
     });
 });
 
-// ─── NUEVA RUTA: GET /api/stats ───
+// GET /api/stats
 app.get('/api/stats', (req, res) => {
-    // Si hay conexión a la BD, hacemos consultas reales
     if (conexion.state === 'authenticated') {
-        const sqlAnimales     = 'SELECT COUNT(*) AS total FROM animal';
-        const sqlSanos        = "SELECT COUNT(*) AS total FROM animales WHERE estado_salud = 'Sano'";
-        const sqlEmpleados    = 'SELECT COUNT(*) AS total FROM empleadO';
-        const sqlActividades  = 'SELECT COUNT(*) AS total FROM actividad';
+        // CORRECCIÓN 5: cuatro errores de nombres de tabla en este bloque:
+        //   'animal'   → 'animales'
+        //   'Sano'     → 'buena'  (el valor real que usa la BD y el DEMO)
+        //   'empleadO' → 'empleados'  (tenía una O mayúscula y era singular)
+        //   'actividad'→ 'actividades'
+        const sqlAnimales    = 'SELECT COUNT(*) AS total FROM animales';
+        const sqlSanos       = "SELECT COUNT(*) AS total FROM animales WHERE estado_salud = 'buena'";
+        const sqlEmpleados   = 'SELECT COUNT(*) AS total FROM empleados';
+        const sqlActividades = 'SELECT COUNT(*) AS total FROM actividades';
 
         Promise.all([
             new Promise((resolve) => hacerConsulta(sqlAnimales, [], resolve)),
@@ -157,7 +165,6 @@ app.get('/api/stats', (req, res) => {
             });
         });
     } else {
-        // Sin BD: datos de demostración
         const totalSanos = DEMO.animales.filter(a => a.estado_salud === 'buena').length;
         res.json({
             data: {
