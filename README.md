@@ -21,43 +21,43 @@ Permite registrar y consultar animales, empleados y actividades diarias a travé
 ```
 proyecto-3-tercer-trimestre/
 │
-├── granja-digital-github/          ← Módulo Java (Programación)
+├── granja-digital-github/                  ← Módulo Java (Programación)
 │   └── app/
-│       ├── pom.xml                 ← Dependencias Maven
+│       ├── pom.xml                         ← Dependencias Maven
 │       ├── config.properties.example
 │       └── src/granja/
-│           ├── controlador/        ← Principal.java · ControladorGranja.java
-│           ├── modelo/             ← Animal · Empleado · Actividad · enums
-│           ├── dao/                ← AnimalDAO · EmpleadoDAO · ActividadDAO · ConexionBD
-│           ├── vista/              ← VistaConsola.java
-│           ├── util/               ← RegistroLog · CopiaSeguridadUtil · Exportadores
-│           └── excepciones/        ← DatoInvalidoException · RegistroNoEncontradoException
+│           ├── controlador/                ← Principal.java · ControladorGranja.java
+│           ├── modelo/                     ← Animal · Empleado · Actividad · enums
+│           ├── dao/                        ← AnimalDAO · EmpleadoDAO · ActividadDAO · ConexionBD
+│           ├── vista/                      ← VistaConsola.java
+│           ├── util/                       ← RegistroLog · CopiaSeguridadUtil · Exportadores
+│           └── excepciones/                ← DatoInvalidoException · RegistroNoEncontradoException
 │
-├── database/                       ← Módulo Base de Datos
+├── database/                               ← Módulo Base de Datos
 │   ├── scripts/
-│   │   ├── script_creacion.sql         ← Crea tablas en MySQL local
-│   │   ├── script_creacion_aiven.sql   ← Crea tablas + datos en Aiven
-│   │   └── script_datos_ejemplo.sql    ← Inserta datos de prueba
+│   │   ├── script_creacion.sql             ← Crea tablas en MySQL local
+│   │   ├── script_creacion_aiven.sql       ← Crea tablas + datos en Aiven
+│   │   └── script_datos_ejemplo.sql        ← Inserta datos de prueba
 │   ├── consultas/
-│   │   └── consultas.sql               ← 12 consultas documentadas
+│   │   └── consultas.sql                   ← 12 consultas documentadas
 │   ├── diagrams/
-│   │   ├── diagrama_er.png/svg         ← Diagrama Entidad/Relación
-│   │   ├── diagrama_relacional.png/svg ← Esquema Relacional
+│   │   ├── diagrama_er.png/svg             ← Diagrama Entidad/Relación
+│   │   ├── diagrama_relacional.png/svg     ← Esquema Relacional
 │   │   └── diagrama_normalizacion.png/svg
 │   └── docs/
 │       ├── Memoria_BD_GranjaDigital.docx
 │       ├── Memoria_General_GranjaDigital.docx
 │       └── Normalizacion_explicacion.md
 │
-├── granja-web/                     ← Módulo Web (Lenguaje de Marcas)
-│   ├── server.js                   ← Servidor Express + API REST
+├── granja-web/                             ← Módulo Web (Lenguaje de Marcas)
+│   ├── server.js                           ← Servidor Express + API REST
 │   ├── package.json
 │   └── public/
-│       ├── index.html              ← Frontend (Inicio · Información · Consultas)
+│       ├── index.html                      ← Frontend (Inicio · Información · Consultas)
 │       ├── css/style.css
 │       └── js/main.js
 │
-└── README.md                       ← Este archivo
+└── README.md                               ← Este archivo
 ```
 
 ---

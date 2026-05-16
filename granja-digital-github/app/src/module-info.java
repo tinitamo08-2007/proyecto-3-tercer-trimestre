@@ -11,8 +11,8 @@
 module GranjaDigital {
 
     // ===== Módulos del JDK =====
-    requires java.sql;        // API JDBC
-    requires java.desktop;    // por si añadimos GUI Swing/JavaFX en el futuro
+    requires java.sql;              // API JDBC
+    requires java.desktop;          // por si añadimos GUI Swing/JavaFX en el futuro
 
     // ===== Librerías externas (módulos automáticos desde lib/) =====
     requires mysql.connector.j;     // Driver MySQL
