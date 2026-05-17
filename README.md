@@ -46,7 +46,6 @@ proyecto-3-tercer-trimestre/
 │   │   └── diagrama_normalizacion.png/svg
 │   └── docs/
 │       ├── Memoria_BD_GranjaDigital.docx
-│       ├── Memoria_General_GranjaDigital.docx
 │       └── Normalizacion_explicacion.md
 │
 ├── granja-web/                             ← Módulo Web (Lenguaje de Marcas)
@@ -183,7 +182,7 @@ npm install
 
 **2. Configurar la contraseña de la BD**
 
-Abre `granja-web/server.js` y sustituye `AQUI_VA_LA_CONTRASEÑA_REAL` por la contraseña real de Aiven. No subir la contraseña real al repositorio.
+Abre `granja-web/server.js` y sustituye `(AQUI_VA_LA_CONTRASEÑA_REAL)` por la contraseña real de Aiven. No subir la contraseña real al repositorio.
 
 **3. Arrancar el servidor**
 ```bash
