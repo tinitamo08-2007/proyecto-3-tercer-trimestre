@@ -1,6 +1,6 @@
 # Granja Digital — Proyecto 3 · Tercer Trimestre
 
-Sistema de gestión para una granja digital desarrollado de forma interdisciplinar entre las asignaturas de **Programación**, **Bases de Datos**, **Sistemas Informáticos** y **Lenguaje de Marcas**.
+Sistema de gestión para una explotación ganadera desarrollado de forma interdisciplinar entre las asignaturas de **Programación**, **Bases de Datos**, **Sistemas Informáticos** y **Lenguaje de Marcas**.
 
 Permite registrar y consultar animales, empleados y actividades diarias a través de una aplicación de consola en Java y una aplicación web con Node.js, ambas conectadas a la misma base de datos MySQL.
 
@@ -8,12 +8,14 @@ Permite registrar y consultar animales, empleados y actividades diarias a travé
 
 ## Integrantes del equipo
 
-| Nombre | Rama de trabajo |
-|--------|----------------|
-| Valentina | `rama_valentina` |
-| Juan | `rama_juan` |
-| César | `Rama_César` |
-| Alejandro| `Rama_Alejandro` |
+| Nombre    | Rama de trabajo     | Módulo                         |
+|-----------|---------------------|--------------------------------|
+| Valentina | `rama_valentina`    | Aplicación Java                |
+| Juan      | `rama_juan`         | Base de Datos                  |
+| César     | `Rama_César`        | Aplicación Web                 |
+| Alejandro | `Rama_Alejandro`    | Aplicación Java / Integración  |
+| Stefan    | `Rama_Stefan`       | Sistemas Informáticos (Docker) |
+
 ---
 
 ## Estructura del repositorio
@@ -21,42 +23,48 @@ Permite registrar y consultar animales, empleados y actividades diarias a travé
 ```
 proyecto-3-tercer-trimestre/
 │
-├── granja-digital-github/                  ← Módulo Java (Programación)
+├── granja-digital-github/               ← Módulo Java (Programación)
 │   └── app/
-│       ├── pom.xml                         ← Dependencias Maven
-│       ├── config.properties.example
+│       ├── pom.xml                      ← Dependencias Maven
+│       ├── config.properties.example    ← Plantilla de credenciales (sin secretos)
 │       └── src/granja/
-│           ├── controlador/                ← Principal.java · ControladorGranja.java
-│           ├── modelo/                     ← Animal · Empleado · Actividad · enums
-│           ├── dao/                        ← AnimalDAO · EmpleadoDAO · ActividadDAO · ConexionBD
-│           ├── vista/                      ← VistaConsola.java
-│           ├── util/                       ← RegistroLog · CopiaSeguridadUtil · Exportadores
-│           └── excepciones/                ← DatoInvalidoException · RegistroNoEncontradoException
+│           ├── controlador/             ← Principal.java · ControladorGranja.java
+│           ├── modelo/                  ← Animal · Empleado · Actividad · enums
+│           ├── dao/                     ← AnimalDAO · EmpleadoDAO · ActividadDAO · ConexionBD
+│           ├── vista/                   ← VistaConsola.java
+│           ├── util/                    ← RegistroLog · CopiaSeguridadUtil · Exportadores
+│           └── excepciones/             ← DatoInvalidoException · RegistroNoEncontradoException
 │
-├── database/                               ← Módulo Base de Datos
+├── database/                            ← Módulo Base de Datos
 │   ├── scripts/
-│   │   ├── script_creacion.sql             ← Crea tablas en MySQL local
-│   │   ├── script_creacion_aiven.sql       ← Crea tablas + datos en Aiven
-│   │   └── script_datos_ejemplo.sql        ← Inserta datos de prueba
+│   │   ├── script_creacion.sql          ← Crea tablas en MySQL local
+│   │   ├── script_creacion_aiven.sql    ← Crea tablas + datos en Aiven
+│   │   └── script_datos_ejemplo.sql     ← Inserta datos de prueba
 │   ├── consultas/
-│   │   └── consultas.sql                   ← 12 consultas documentadas
+│   │   └── consultas.sql               ← 12 consultas documentadas
 │   ├── diagrams/
-│   │   ├── diagrama_er.png/svg             ← Diagrama Entidad/Relación
-│   │   ├── diagrama_relacional.png/svg     ← Esquema Relacional
+│   │   ├── diagrama_er.png/svg          ← Diagrama Entidad/Relación
+│   │   ├── diagrama_relacional.png/svg  ← Esquema Relacional
 │   │   └── diagrama_normalizacion.png/svg
 │   └── docs/
 │       ├── Memoria_BD_GranjaDigital.docx
 │       └── Normalizacion_explicacion.md
 │
-├── granja-web/                             ← Módulo Web (Lenguaje de Marcas)
-│   ├── server.js                           ← Servidor Express + API REST
+├── granja-web/                          ← Módulo Web (Lenguaje de Marcas)
+│   ├── server.js                        ← Servidor Express + API REST
 │   ├── package.json
 │   └── public/
-│       ├── index.html                      ← Frontend (Inicio · Información · Consultas)
+│       ├── index.html                   ← Frontend (Inicio · Información · Consultas)
 │       ├── css/style.css
 │       └── js/main.js
 │
-└── README.md                               ← Este archivo
+├── mi-proyecto-mysql/                   ← Módulo Docker (Sistemas Informáticos)
+│   ├── Dockerfile                       ← Imagen MySQL personalizada
+│   ├── docker-compose.yml               ← Servicios, volúmenes y red
+│   ├── .env                             ← Credenciales (no subir al repo)
+│   └── mysql_data/                      ← Datos persistentes en el host
+│
+└── README.md
 ```
 
 ---
@@ -117,11 +125,11 @@ Clic derecho en Principal.java → Run As → Java Application
 
 ### Dependencias Maven
 
-| Librería | Versión | Uso |
-|----------|---------|-----|
-| `mysql-connector-j` | 9.0.0 | Conexión JDBC a MySQL |
-| `poi` + `poi-ooxml` | 5.2.5 | Exportación a Excel |
-| `itextpdf` | 5.5.13.3 | Exportación a PDF |
+| Librería            | Versión   | Uso                   |
+|---------------------|-----------|-----------------------|
+| `mysql-connector-j` | 9.0.0     | Conexión JDBC a MySQL |
+| `poi` + `poi-ooxml` | 5.2.5     | Exportación a Excel   |
+| `itextpdf`          | 5.5.13.3  | Exportación a PDF     |
 
 ---
 
@@ -131,14 +139,13 @@ Diseño completo del modelo relacional normalizado hasta **3FN**.
 
 ### Tablas del esquema
 
-| Tabla | Descripción |
-|-------|-------------|
-| `empleado` | Personal de la granja (veterinario, peón, encargado...) |
-| `animal` | Animales con especie, raza, identificador y estado de salud |
-| `actividad` | Tareas diarias con fecha, hora y tipo (ENUM) |
-| `actividad_animal` | Relación N:M entre actividades y animales |
-| `usuario` | Autenticación básica de administradores |
-| `vista_actividades` | Vista con JOIN de actividad + empleado + animales |
+| Tabla               | Descripción                                             |
+|---------------------|---------------------------------------------------------|
+| `empleado`          | Personal de la granja (veterinario, peón, encargado...) |
+| `animal`            | Animales con especie, raza, identificador y estado      |
+| `actividad`         | Tareas diarias con fecha, hora y tipo (ENUM)            |
+| `actividad_animal`  | Relación N:M entre actividades y animales               |
+| `vista_actividades` | Vista con JOIN de actividad + empleado + animales       |
 
 ### Cómo crear la base de datos
 
@@ -182,7 +189,7 @@ npm install
 
 **2. Configurar la contraseña de la BD**
 
-Abre `granja-web/server.js` y sustituye `(AQUI_VA_LA_CONTRASEÑA_REAL)` por la contraseña real de Aiven. No subir la contraseña real al repositorio.
+Abre `granja-web/server.js` y sustituye el valor de `password` por la contraseña real de Aiven. No subir la contraseña real al repositorio; usar una variable de entorno.
 
 **3. Arrancar el servidor**
 ```bash
@@ -201,21 +208,21 @@ http://localhost:3000
 
 ### Secciones de la aplicación
 
-| Sección | Contenido |
-|---------|-----------|
-| Inicio | Estadísticas en tiempo real: total de animales, sanos, empleados y actividades |
-| Información | Tablas de animales, empleados y actividades cargadas desde MySQL |
-| Consultas | Formulario con validaciones para filtrar por especie, rol, fecha o estado de salud |
+| Sección     | Contenido                                                                       |
+|-------------|---------------------------------------------------------------------------------|
+| Inicio      | Estadísticas en tiempo real: total de animales, sanos, empleados y actividades  |
+| Información | Tablas de animales, empleados y actividades cargadas desde MySQL                |
+| Consultas   | Formulario con validaciones para filtrar por especie, rol, fecha o estado       |
 
 ### API REST
 
-| Método | Ruta | Descripción |
-|--------|------|-------------|
-| `GET` | `/api/animales` | Todos los animales |
-| `GET` | `/api/empleados` | Todos los empleados |
-| `GET` | `/api/actividades` | Actividades con JOIN via `vista_actividades` |
-| `GET` | `/api/stats` | Totales generales |
-| `POST` | `/api/consulta` | Consulta filtrada por tipo y valor |
+| Método | Ruta                | Descripción                                  |
+|--------|---------------------|----------------------------------------------|
+| `GET`  | `/api/animales`     | Todos los animales                           |
+| `GET`  | `/api/empleados`    | Todos los empleados                          |
+| `GET`  | `/api/actividades`  | Actividades con JOIN via `vista_actividades` |
+| `GET`  | `/api/stats`        | Totales generales                            |
+| `POST` | `/api/consulta`     | Consulta filtrada por tipo y valor           |
 
 ### Tecnologías
 
@@ -226,16 +233,104 @@ http://localhost:3000
 
 ## Módulo 4 — Sistemas Informáticos (Docker)
 
-En desarrollo — dockerización de la BD con persistencia en el sistema físico mediante volúmenes Docker.
+Dockerización de la base de datos MySQL con persistencia en el sistema físico mediante volúmenes. El objetivo es que cualquier miembro del equipo pueda levantar la BD con dos comandos, sin tener MySQL instalado localmente.
+
+**Responsable:** Stefan (`Rama_Stefan`)
+
+### Estructura del módulo
+
+| Archivo              | Descripción                                             |
+|----------------------|---------------------------------------------------------|
+| `Dockerfile`         | Imagen personalizada basada en `mysql:8.0`              |
+| `docker-compose.yml` | Orquesta el servicio, puertos, volúmenes y red          |
+| `.env`               | Variables de entorno con credenciales (no subir al repo)|
+| `mysql_data/`        | Carpeta del host donde MySQL guarda los datos reales    |
+
+### Requisitos previos
+
+- Docker instalado
+- Docker Compose instalado
+
+En Windows 11, activar WSL2 antes de instalar Docker Desktop:
+```powershell
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+wsl --set-default-version 2
+wsl --install -d Ubuntu-24.04
+```
+
+### Cómo desplegar
+
+**1. Entrar en la carpeta del módulo**
+```bash
+cd mi-proyecto-mysql
+```
+
+**2. Crear el archivo `.env`** con las credenciales (este archivo no se sube al repositorio):
+```env
+MYSQL_DATABASE=granja
+MYSQL_USER=usuario
+MYSQL_PASSWORD=contrasena_segura
+MYSQL_ROOT_PASSWORD=contrasena_root_segura
+```
+
+**3. Construir la imagen y levantar el contenedor**
+```bash
+docker compose up -d --build
+```
+
+**4. Comprobar que está corriendo**
+```bash
+docker ps
+```
+
+**5. Ver los logs en directo** (opcional)
+```bash
+docker logs -f mi_mysql
+```
+
+**6. Conectar desde MySQL Workbench**
+```
+Host: 127.0.0.1   Puerto: 3306
+Usuario: usuario  Contraseña: contrasena_segura
+```
+
+**7. Entrar a MySQL desde dentro del contenedor**
+```bash
+docker exec -it mi_mysql mysql -u usuario -p
+```
+
+Una vez dentro, ejecutar los scripts del Módulo 2 para crear las tablas y cargar los datos de ejemplo.
+
+### Comandos de mantenimiento
+
+```bash
+# Bajar el contenedor conservando los datos
+docker compose down
+
+# Bajar el contenedor y borrar todos los datos
+docker compose down -v
+
+# Reiniciar el contenedor
+docker compose restart
+```
+
+### Ventajas de este enfoque
+
+- **Portabilidad** — el mismo `docker-compose.yml` funciona en Windows, Linux y macOS
+- **Aislamiento** — la BD vive en el contenedor sin modificar el sistema operativo
+- **Persistencia** — los datos se guardan en `mysql_data/` aunque se elimine el contenedor
+- **Reproducibilidad** — cualquier miembro del equipo levanta la misma BD en segundos
 
 ---
 
 ## Ramas de GitHub
 
-| Rama | Propósito |
-|------|-----------|
-| `main` | Versión estable e integrada del proyecto |
-| `rama_valentina` | Trabajo individual de Valentina |
-| `rama_juan` | Trabajo individual de Juan |
-| `Rama_César` | Trabajo individual de César |
-| `Rama_Alejandro` | Trabajo individual de Alejandro |
+| Rama             | Propósito                                |
+|------------------|------------------------------------------|
+| `main`           | Versión estable e integrada del proyecto |
+| `rama_valentina` | Trabajo individual de Valentina          |
+| `rama_juan`      | Trabajo individual de Juan               |
+| `Rama_César`     | Trabajo individual de César              |
+| `Rama_Alejandro` | Trabajo individual de Alejandro          |
+| `Rama_Stefan`    | Dockerización de la BD (Módulo 4)        |
