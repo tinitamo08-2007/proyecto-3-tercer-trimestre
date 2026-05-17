@@ -1,26 +1,49 @@
-// IMPORTACIONES
+// =======================================================
+// SERVIDOR GESTIÓN DE GRANJA
+// =======================================================
+// servidor web con Node.js y Express muestra
+// datos de animales, empleados y actividades diarias. Está
+// preparado para conectarse a la base de datos mysql, pero si la conexión falla o la base
+// no está disponible, utiliza automáticamente unos datos
+// de demostración, para que el panel siempre funcione.
+// =======================================================
+
+//  IMPORTACIONES 
+// express: framework para crear el servidor y las rutas.
+// mysql2:  controlador para conectar con MySQL.
+// path:    ayuda a construir rutas de archivos en el disco.
 const express = require('express');
 const mysql   = require('mysql2');
 const path    = require('path');
 
-// CONFIGURACIÓN INICIAL
-const app  = express();
-const PORT = 3000;
+// CONFIGURACIÓN EXPRESS 
+const app  = express();          // Creamos la aplicación
+const PORT = 3000;               // Puerto en el que se escuchará
+
+// Middlewares: funciones que se ejecutan en cada petición
+// para interpretar los datos que llegan.
+// express.json() permite recibir JSON en el cuerpo de las peticiones.
+// express.urlencoded({extended:true}) interpreta datos de formularios HTML.
+// express.static('public') sirve directamente los archivos de la carpeta
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// CONEXIÓN A MYSQL
-// Reconstruye la BD en Aiven con script_creacion_aiven.sql antes de arrancar
+// INTENTO DE CONEXIÓN A LA BASE DE DATOS MYSQL (AIVEN) 
+// La base de datos se llama 'granja' y está alojada en la nube.
+// Es necesario haber ejecutado antes el script de creación de tablas
+// (script_creacion_aiven.sql) para que las tablas existan.
 const conexion = mysql.createConnection({
     host:     'granja-mysql-granjamysql.j.aivencloud.com',
     user:     'avnadmin',
     port:     '18071',
-    password: 'AVNS_uN8EqkMrT39tJLGXsfC',  
+    password: 'AVNS_uN8EqkMrT39tJLGXsfC',
     database: 'granja',
 });
 
+// Verificamos si la conexión fue exitosa.
+// Si falla, mostraremos un mensaje y el sistema recurrirá a los datos DEMO.
 conexion.connect((err) => {
     if (err) {
         console.log('Sin conexión a MySQL, usando datos de demo.');
@@ -29,8 +52,9 @@ conexion.connect((err) => {
     }
 });
 
-// DATOS DE DEMO  (coinciden exactamente con script_datos_ejemplo.sql)
-// Clave 'tipo' para que coincida con la columna tipo ENUM de la tabla actividad
+// DATOS DE DEMOSTRACIÓN
+// Estos datos imitan exactamente la estructura y los valores
+// que devolverían las consultas SQL.
 const DEMO = {
     animales: [
         { id:1, especie:'vaca',    raza:'Holstein',         identificador:'ARETE-001', estado_salud:'buena',   ubicacion:'Corral 1' },
@@ -57,24 +81,35 @@ const DEMO = {
     ],
 };
 
-// FUNCIÓN PARA HACER CONSULTAS
+// FUNCIÓN AUXILIAR PARA CONSULTAS SQL 
+// Centraliza la ejecución de cualquier consulta, captura errores
+// y llama a un callback con los resultados o con null si falló.
+
 function hacerConsulta(sql, params, callback) {
     conexion.query(sql, params, (error, resultados) => {
         if (error) {
             console.log('Error en la consulta:', error.message);
-            callback(null);
+            callback(null);                 
         } else {
-            callback(resultados);
+            callback(resultados);          
         }
     });
 }
 
-// APIs GET
+// RUTAS DE LA API
+
+// OBTENER LISTADOS COMPLETOS 
+// Cada una de estas rutas intenta recuperar todos los registros
+// de su tabla correspondiente. Si la base responde,
+// envía los datos reales y la propiedad 'demo' en false.
+// Si falla, envía los datos de demostración y 'demo' en true.
+// Así el panel siempre tiene información que mostrar.
+
 app.get('/api/animales', (req, res) => {
     hacerConsulta('SELECT * FROM animal', [], (datos) => {
         res.json({
             data: datos || DEMO.animales,
-            demo: !datos
+            demo: !datos                     
         });
     });
 });
@@ -89,7 +124,9 @@ app.get('/api/empleados', (req, res) => {
 });
 
 app.get('/api/actividades', (req, res) => {
-    // vista_actividades hace el JOIN con empleado y animal automáticamente
+    // En lugar de consultar la tabla directamente, usamos una vista
+    // llamada 'vista_actividades' que ya hace los JOIN con empleado
+    // y animal, mostrando la información de forma más legible.
     hacerConsulta('SELECT * FROM vista_actividades', [], (datos) => {
         res.json({
             data: datos || DEMO.actividades,
@@ -98,11 +135,16 @@ app.get('/api/actividades', (req, res) => {
     });
 });
 
-// API POST — consultas filtradas desde el formulario web
-app.post('/api/consulta', (req, res) => {
-    const tipo   = req.body.tipo;
-    const filtro = req.body.filtro;
+// CONSULTAS FILTRADAS DESDE EL FORMULARIO WEB 
+// Esta ruta POST recibe un JSON con un 'tipo' de filtro y un 'filtro'
+// con el valor a buscar.
+// Si la base no funciona, filtra entre los datos DEMO según el tipo.
 
+app.post('/api/consulta', (req, res) => {
+    const tipo   = req.body.tipo;      
+    const filtro = req.body.filtro;    
+
+    // Validación: el campo 'tipo' es obligatorio
     if (!tipo) {
         return res.status(400).json({
             error: 'Falta el campo tipo',
@@ -110,6 +152,7 @@ app.post('/api/consulta', (req, res) => {
         });
     }
 
+    // tipos de consulta permitidos a las sentencias SQL correspondientes
     const consultas = {
         animales_especie:  "SELECT * FROM animal     WHERE especie      LIKE CONCAT('%', ?, '%')",
         empleados_rol:     "SELECT * FROM empleado   WHERE rol          LIKE CONCAT('%', ?, '%')",
@@ -117,6 +160,7 @@ app.post('/api/consulta', (req, res) => {
         animales_salud:    "SELECT * FROM animal     WHERE estado_salud LIKE CONCAT('%', ?, '%')",
     };
 
+    // Si el tipo no está en la lista, devolvemos un error 400
     if (!consultas[tipo]) {
         return res.status(400).json({
             error: 'Tipo de consulta no válido',
@@ -124,24 +168,35 @@ app.post('/api/consulta', (req, res) => {
         });
     }
 
+    // Ejecutamos la consulta correspondiente, pasando el filtro como parámetro
     hacerConsulta(consultas[tipo], [filtro || ''], (datos) => {
+        // Si no hay datos usamos DEMO filtrando manualmente
+        // la categoría base (animales, empleados o actividades)
+        const categoria = datos ? null : DEMO[tipo.split('_')[0]]; // ej: 'animales', 'empleados'...
         res.json({
-            data:     datos || DEMO[tipo.split('_')[0]],
+            data:     datos || categoria,
             demo:     !datos,
-            total:    datos ? datos.length : 0,
-            consulta: tipo.replace('_', ' por ')
+            total:    datos ? datos.length : (categoria ? categoria.length : 0),
+            consulta: tipo.replace('_', ' por ')   
         });
     });
 });
 
-// GET /api/stats
+// ESTADÍSTICAS GENERALES 
+// Devuelve cuatro números: total de animales, total de animales sanos,
+// total de empleados y total de actividades.
+// Si hay conexión real, consulta la base de datos
+// Si no, calcula los mismos números a partir de los datos DEMO.
+
 app.get('/api/stats', (req, res) => {
     if (conexion.state === 'authenticated') {
+        // Sentencias SQL para cada estadística
         const sqlAnimales    = 'SELECT COUNT(*) AS total FROM animal';
         const sqlSanos       = "SELECT COUNT(*) AS total FROM animal WHERE estado_salud = 'buena'";
         const sqlEmpleados   = 'SELECT COUNT(*) AS total FROM empleado';
         const sqlActividades = 'SELECT COUNT(*) AS total FROM actividad';
 
+        // Lanzamos las 4 consultas en paralelo y esperamos que todas terminen
         Promise.all([
             new Promise((resolve) => hacerConsulta(sqlAnimales, [], resolve)),
             new Promise((resolve) => hacerConsulta(sqlSanos, [], resolve)),
@@ -159,6 +214,7 @@ app.get('/api/stats', (req, res) => {
             });
         });
     } else {
+        // Sin conexión, calculamos los datos desde DEMO
         const totalSanos = DEMO.animales.filter(a => a.estado_salud === 'buena').length;
         res.json({
             data: {
@@ -172,7 +228,11 @@ app.get('/api/stats', (req, res) => {
     }
 });
 
-// ERROR 404
+// MANEJO DE RUTAS NO ENCONTRADAS (ERROR 404)
+// Si la petición empieza por '/api' y no coincide con ninguna ruta anterior,
+// devolvemos un JSON informando del error y listando las rutas disponibles.
+
+
 app.use((req, res) => {
     if (req.path.startsWith('/api')) {
         return res.status(404).json({
@@ -189,7 +249,8 @@ app.use((req, res) => {
     res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
-// INICIAR SERVIDOR
+// INICIAR EL SERVIDOR 
+// Ponemos a Express a escuchar en el puerto 3000 y mostramos en consola.
 app.listen(PORT, () => {
     console.log('Servidor Express arrancado correctamente');
     console.log(`Abre tu navegador en: http://localhost:${PORT}`);

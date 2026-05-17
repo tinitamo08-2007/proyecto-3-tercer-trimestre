@@ -13,7 +13,7 @@ Permite registrar y consultar animales, empleados y actividades diarias a travé
 | Valentina | `rama_valentina` |
 | Juan | `rama_juan` |
 | César | `Rama_César` |
-
+| Alejandro| `Rama_Alejandro` |
 ---
 
 ## Estructura del repositorio
@@ -239,3 +239,4 @@ En desarrollo — dockerización de la BD con persistencia en el sistema físico
 | `rama_valentina` | Trabajo individual de Valentina |
 | `rama_juan` | Trabajo individual de Juan |
 | `Rama_César` | Trabajo individual de César |
+| `Rama_Alejandro` | Trabajo individual de Alejandro |

@@ -30,9 +30,9 @@ vaca ; Holstein ; buena ; Corral 1
 
 **Problemas evidentes:**
 
-- ❌ La columna `LISTA_DE_ANIMALES` mete varios valores en una sola celda
+-  La columna `LISTA_DE_ANIMALES` mete varios valores en una sola celda
   (grupo repetitivo). Eso ya rompe la 1FN.
-- ❌ Los datos del empleado y del animal se repiten en cada actividad
+-  Los datos del empleado y del animal se repiten en cada actividad
   → redundancia y riesgo de inconsistencias (si cambia un teléfono hay que
   cambiarlo en muchas filas).
 
@@ -58,13 +58,13 @@ id_act | fecha       | hora  | tipo    | empleado    | rol  | id_animal | especi
 
 **Qué hemos ganado:**
 
-- ✅ Cada celda contiene un único valor.
-- ✅ Ya se puede definir una clave primaria: `(id_act, id_animal)`.
+- Cada celda contiene un único valor.
+- Ya se puede definir una clave primaria: `(id_act, id_animal)`.
 
 **Qué problemas siguen ahí:**
 
-- ❌ "Juan Pérez" y "peón" se repiten en cada animal de cada actividad.
-- ❌ "Holstein" se repite por cada actividad en la que aparece la vaca 1.
+-  "Juan Pérez" y "peón" se repiten en cada animal de cada actividad.
+-  "Holstein" se repite por cada actividad en la que aparece la vaca 1.
 
 ---
 
@@ -100,12 +100,12 @@ actividad_animal (id_actividad, id_animal)
 
 **Qué hemos ganado:**
 
-- ✅ El animal vive en su propia tabla; ya no se repiten sus datos.
-- ✅ La tabla intermedia resuelve elegantemente la relación N:M.
+-  El animal vive en su propia tabla; ya no se repiten sus datos.
+-  La tabla intermedia resuelve elegantemente la relación N:M.
 
 **Qué sigue mal:**
 
-- ❌ Los datos del empleado (`nombre_empleado`, `rol`) siguen mezclados
+-  Los datos del empleado (`nombre_empleado`, `rol`) siguen mezclados
   dentro de `actividad`. Si Juan Pérez cambia de rol hay que actualizar
   todas sus actividades.
 
@@ -140,10 +140,10 @@ actividad_animal → sin cambios
 
 **Resultado final:**
 
-- ✅ 4 tablas independientes.
-- ✅ Cada dato vive en un único sitio.
-- ✅ Sin redundancias.
-- ✅ Cambiar un teléfono o un rol se hace en una sola fila.
+-  4 tablas independientes.
+-  Cada dato vive en un único sitio.
+-  Sin redundancias.
+-  Cambiar un teléfono o un rol se hace en una sola fila.
 
 Este es el modelo definitivo del proyecto, el que se ve en el diagrama
 relacional y en el script SQL de creación.
