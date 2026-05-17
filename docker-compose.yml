@@ -1,0 +1,17 @@
+services:
+  mysql-db:
+    build: .                    # Construye usando el Dockerfile
+    container_name: mi_mysql
+    restart: unless-stopped
+    env_file:
+      - .env                    # Carga las variables desde .env por seguridad
+    ports:
+      - "3306:3306"             # Puerto accesible desde el host
+    volumes:
+      - ./mysql_data:/var/lib/mysql   # Persistencia en el sistema físico
+    networks:
+      - db_network
+
+networks:
+  db_network:
+    driver: bridge
