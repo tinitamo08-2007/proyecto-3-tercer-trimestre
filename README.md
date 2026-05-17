@@ -58,7 +58,7 @@ proyecto-3-tercer-trimestre/
 │       ├── css/style.css
 │       └── js/main.js
 │
-├── mi-proyecto-mysql/                   ← Módulo Docker (Sistemas Informáticos)
+├── docker_db/                   ← Módulo Docker (Sistemas Informáticos)
 │   ├── Dockerfile                       ← Imagen MySQL personalizada
 │   ├── docker-compose.yml               ← Servicios, volúmenes y red
 │   ├── .env                             ← Credenciales (no subir al repo)
