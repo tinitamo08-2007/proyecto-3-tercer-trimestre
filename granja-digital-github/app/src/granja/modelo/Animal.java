@@ -8,29 +8,14 @@ package granja.modelo;
  */
 public class Animal {
 
-    /** ID interno autogenerado por la base de datos (AUTO_INCREMENT). */
-    private int id;
-
-    /** Especie del animal (vaca, oveja, cerdo, gallina...). */
-    private String especie;
-
-    /** Raza concreta (Holstein, Merina, Duroc...). */
-    private String raza;
-
-    /** Fecha de nacimiento en formato ISO yyyy-MM-dd. */
-    private String fechaNacimiento;
-
-    /** Identificador unico fisico (arete, chip, anilla...). */
-    private String identificador;
-
-    /** Estado de salud: "buena", "regular", "grave", "critica". */
-    private String estadoSalud;
-
-    /** Ubicacion: corral 1, potrero norte, etc. */
-    private String ubicacion;
-
-    /** Estado dentro de la granja (ACTIVO, VENDIDO, FALLECIDO, TRASLADADO). */
-    private EstadoAnimal estado = EstadoAnimal.ACTIVO;
+    private int id;                                     // ID interno autogenerado por la base de datos (AUTO_INCREMENT).
+    private String especie;                             // Especie del animal (vaca, oveja, cerdo, gallina...).
+    private String raza;                                // Raza concreta (Holstein, Merina, Duroc...).
+    private String fechaNacimiento;                     // Fecha de nacimiento en formato ISO yyyy-MM-dd.
+    private String identificador;                       // Identificador unico fisico (arete, chip, anilla...).
+    private String estadoSalud;                         // Estado de salud: "buena", "regular", "grave", "critica".
+    private String ubicacion;                           // Ubicacion: corral 1, potrero norte, etc.
+    private EstadoAnimal estado = EstadoAnimal.ACTIVO;  // Estado dentro de la granja (ACTIVO, VENDIDO, FALLECIDO, TRASLADADO).
 
     // ===== Constructores =====
 

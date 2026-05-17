@@ -38,7 +38,7 @@ const conexion = mysql.createConnection({
     host:     'granja-mysql-granjamysql.j.aivencloud.com',
     user:     'avnadmin',
     port:     '18071',
-    password: 'AVNS_uN8EqkMrT39tJLGXsfC',
+    password: '(AQUI_VA_LA_CONTRASEÑA_REAL)',  
     database: 'granja',
 });
 
@@ -66,11 +66,11 @@ const DEMO = {
         { id:7, especie:'gallina', raza:'Castellana negra', identificador:'ANILLA-301',estado_salud:'buena',   ubicacion:'Gallinero' },
     ],
     empleados: [
-        { id:1, nombre:'Maria Lopez',     rol:'veterinario', telefono:'666111222' },
-        { id:2, nombre:'Juan Perez',      rol:'peon',        telefono:'655234567' },
-        { id:3, nombre:'Lucia Fernandez', rol:'encargado',   telefono:'644555888' },
-        { id:4, nombre:'Carlos Romero',   rol:'peon',        telefono:'633998877' },
-        { id:5, nombre:'Sofia Ruiz',      rol:'veterinario', telefono:'611222333' },
+        { id:1, nombre:'Maria Lopez',     rol:'veterinario', telefono:'666111222', fecha_contratacion:'2022-04-15' },
+        { id:2, nombre:'Juan Perez',      rol:'peon',        telefono:'655234567', fecha_contratacion:'2023-09-01' },
+        { id:3, nombre:'Lucia Fernandez', rol:'encargado',   telefono:'644555888', fecha_contratacion:'2021-01-10' },
+        { id:4, nombre:'Carlos Romero',   rol:'peon',        telefono:'633998877', fecha_contratacion:'2024-02-20' },
+        { id:5, nombre:'Sofia Ruiz',      rol:'veterinario', telefono:'611222333', fecha_contratacion:'2023-06-01' },
     ],
     actividades: [
         { id:1, fecha:'2026-05-10', hora:'06:30', tipo:'ORDENIE',      empleado:'Juan Perez',    animales:'ARETE-001, ARETE-002' },
