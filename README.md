@@ -61,7 +61,7 @@ proyecto-3-tercer-trimestre/
 ├── docker_db/                   ← Módulo Docker (Sistemas Informáticos)
 │   ├── Dockerfile                       ← Imagen MySQL personalizada
 │   ├── docker-compose.yml               ← Servicios, volúmenes y red
-│   ├── .env                             ← Credenciales (no subir al repo)
+│   ├── .env                            
 │   └── mysql_data/                      ← Datos persistentes en el host
 │
 └── README.md
