@@ -1,5 +1,5 @@
 
-# Proyecto 3 · Comunicación con Base de Datos
+# Proyecto 3 · Interfaz Visual
 ## Aplicación Web — Rebelión en la Granja
 
 > **Tecnologías:** HTML5 · Boostrap · CSS3 · JavaScript · Node.js · Express.js · MySQL  
