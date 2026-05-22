@@ -1,8 +1,8 @@
 
-# proyecto-2-trimestre-lenguaje-de-marcas-node.js# Proyecto 3 · Comunicación con Base de Datos
+# Proyecto 3 · Comunicación con Base de Datos
 ## Aplicación Web — Rebelión en la Granja
 
-> **Tecnologías:** HTML5 · CSS3 · JavaScript · Node.js · Express.js · MySQL  
+> **Tecnologías:** HTML5 · Boostrap · CSS3 · JavaScript · Node.js · Express.js · MySQL  
 
 ---
 
