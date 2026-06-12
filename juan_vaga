@@ -1,0 +1,24 @@
+Mapa de red
+El diagrama de arriba refleja el diseño: un router principal con una interfaz por cada subred departamental (Desarrollo IA, Administración, IoT y Dirección, cada una con su propio switch), y un segundo router dedicado a la sala de servidores, conectado al router principal mediante un enlace punto a punto (la subred de interconexión). Separar la sala de servidores detrás de su propio router es una decisión habitual de seguridad: aísla el tráfico de producción del resto de la LAN.
+Cálculo de subredes (VLSM)
+Partiendo de 192.168.10.0/24, se ordenan los departamentos de mayor a menor número de hosts necesarios y se asigna el bloque más pequeño que cubra esa necesidad, dejando siempre la primera IP útil para la puerta de enlace:
+
+Desarrollo (IA): 25 hosts → con /28 solo hay 14 útiles, insuficiente; se necesita /27 (30 útiles). Es el bloque más ajustado posible que cubre 25 equipos.
+Administración: 8 hosts → con /29 hay 6 útiles, insuficiente; se necesita /28 (14 útiles).
+IoT: 5 dispositivos → /29 (6 útiles) es suficiente y es el bloque mínimo posible.
+Dirección: 4 hosts → /29 (6 útiles), ya que /30 solo da 2 útiles.
+Sala de servidores: 2 servidores + 1 gateway = 3 direcciones → /29 (6 útiles), porque /30 solo permite 2 direcciones útiles y no quedaría sitio para el router.
+Enlace router-router (P2P): 2 hosts → /30 (2 útiles), el tamaño exacto y estándar para enlaces punto a punto.
+
+Tabla de subredes
+SalaHosts necesariosRedMáscara (CIDR)Rango útil (1º–último host)BroadcastPuerta de enlaceHosts reales (con red y broadcast)Desarrollo (IA)25192.168.10.0255.255.255.224 /27192.168.10.1 – 192.168.10.30192.168.10.31192.168.10.132Administración8192.168.10.32255.255.255.240 /28192.168.10.33 – 192.168.10.46192.168.10.47192.168.10.3316IoT5192.168.10.48255.255.255.248 /29192.168.10.49 – 192.168.10.54192.168.10.55192.168.10.498Dirección4192.168.10.56255.255.255.248 /29192.168.10.57 – 192.168.10.62192.168.10.63192.168.10.578Sala de servidores2 (+gateway)192.168.10.64255.255.255.248 /29192.168.10.65 – 192.168.10.70192.168.10.71192.168.10.658Enlace P2P routers2192.168.10.72255.255.255.252 /30192.168.10.73 – 192.168.10.74192.168.10.75192.168.10.73 (router principal)4
+Justificación y margen de ampliación
+El criterio aplicado en todos los casos es elegir la máscara más larga (subred más pequeña) cuya cantidad de direcciones útiles sea igual o ligeramente mayor que el número de hosts requerido, lo cual cumple el objetivo de minimizar el desperdicio sin dejar a ningún departamento sin sitio para su puerta de enlace:
+
+En Desarrollo (IA), con 25 equipos, la siguiente máscara más pequeña (/28, 14 útiles) no llegaría, así que /27 es el límite inferior real, y de los 30 hosts disponibles quedan 5 libres para futuras incorporaciones (por ejemplo, más dispositivos móviles de prueba).
+En Administración, con 8 equipos, /28 deja 6 direcciones libres, suficiente para crecer moderadamente (por ejemplo, añadir un par de puestos más sin tener que renumerar).
+IoT y Dirección usan /29 porque ambos necesitan más de 2 hosts pero menos de 7; cada una deja 1-2 direcciones libres, margen ajustado pero razonable dado lo predecible que suele ser el crecimiento de esas salas.
+La sala de servidores usa /29 no por el número de servidores (solo 2), sino porque /30 no dejaría espacio para la dirección de la puerta de enlace junto con los dos servidores; quedan 3 direcciones libres para añadir, por ejemplo, un servidor de backup.
+El enlace punto a punto usa /30, el tamaño mínimo estándar y exacto para una conexión entre dos routers (2 direcciones útiles, ninguna se desperdicia).
+
+En total se han consumido los rangos 192.168.10.0 a 192.168.10.75 (76 direcciones de las 256 disponibles), quedando libre el bloque completo desde 192.168.10.76 hasta 192.168.10.255 (180 direcciones). Ese espacio sobrante permite, sin tocar nada de lo ya configurado, crear nuevas subredes en el futuro (por ejemplo, una sala adicional, una VLAN de invitados Wi-Fi, o redundancia de servidores), manteniendo siempre el mismo esquema VLSM.
